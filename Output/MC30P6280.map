@@ -1,0 +1,152 @@
+gplink-2.2.37 (Jan 22 2024)
+Map File - Created 2026-4-8  18:58:29
+ 
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                  STARTUP       code   00000000    program   0x000002
+              c_interrupt       code   0x000008    program   0x000010
+           code_MC30P6280       code   0x000010    program   0x0001b8
+       UD_abs_mc30p6280_0      udata   00000000       data   0x000001
+       UD_abs_mc30p6280_1      udata   0x000001       data   0x000001
+       UD_abs_mc30p6280_2      udata   0x000002       data   0x000001
+       UD_abs_mc30p6280_3      udata   0x000003       data   0x000001
+       UD_abs_mc30p6280_4      udata   0x000004       data   0x000001
+       UD_abs_mc30p6280_6      udata   0x000006       data   0x000001
+       UD_abs_mc30p6280_8      udata   0x000008       data   0x000001
+       UD_abs_mc30p6280_9      udata   0x000009       data   0x000001
+       UD_abs_mc30p6280_a      udata   0x00000a       data   0x000001
+       UD_abs_mc30p6280_b      udata   0x00000b       data   0x000001
+       UD_abs_mc30p6280_c      udata   0x00000c       data   0x000001
+       UD_abs_mc30p6280_d      udata   0x00000d       data   0x000001
+       UD_abs_mc30p6280_e      udata   0x00000e       data   0x000001
+       UD_abs_mc30p6280_f      udata   0x00000f       data   0x000001
+                sharebank      udata   0x000010       data   0x000007
+          UDL_MC30P6280_0      udata   0x000017       data   0x00000f
+           UD_MC30P6280_0      udata   0x000026       data   0x000001
+           UD_MC30P6280_1      udata   0x000027       data   0x000001
+           UD_MC30P6280_2      udata   0x000028       data   0x000001
+      UD_abs_mc30p6280_41      udata   0x000041       data   0x000001
+      UD_abs_mc30p6280_46      udata   0x000046       data   0x000001
+      UD_abs_mc30p6280_4b      udata   0x00004b       data   0x000001
+      UD_abs_mc30p6280_4c      udata   0x00004c       data   0x000001
+      UD_abs_mc30p6280_4d      udata   0x00004d       data   0x000001
+      UD_abs_mc30p6280_4e      udata   0x00004e       data   0x000001
+      UD_abs_mc30p6280_4f      udata   0x00004f       data   0x000001
+ 
+                              Program Memory Usage
+                               Start         End
+                           ---------   ---------
+                            00000000    00000000
+                            0x000008    0x00000f
+                            0x000010    0x0000eb
+ 
+                            229 program addresses used
+ 
+                              Symbols
+                     Name    Address   Location    Storage File
+                ---------  ---------  ---------  --------- ---------
+                    STK06   0x000010       data     extern MC30P6280.asm
+                    STK05   0x000011       data     extern MC30P6280.asm
+                    STK04   0x000012       data     extern MC30P6280.asm
+                    STK03   0x000013       data     extern MC30P6280.asm
+                    STK02   0x000014       data     extern MC30P6280.asm
+                    STK01   0x000015       data     extern MC30P6280.asm
+                    STK00   0x000016       data     extern MC30P6280.asm
+                    _abuf   0x000026       data     extern MC30P6280.asm
+               _statusbuf   0x000027       data     extern MC30P6280.asm
+                   _flag1   0x000028       data     extern MC30P6280.asm
+                  r0x1009   0x000017       data     static MC30P6280.asm
+                  r0x1008   0x000018       data     static MC30P6280.asm
+                  r0x1007   0x000019       data     static MC30P6280.asm
+                  r0x1006   0x00001a       data     static MC30P6280.asm
+                  r0x100A   0x00001b       data     static MC30P6280.asm
+                  r0x100B   0x00001c       data     static MC30P6280.asm
+                  r0x100C   0x00001d       data     static MC30P6280.asm
+                  r0x100D   0x00001e       data     static MC30P6280.asm
+                  r0x100E   0x00001f       data     static MC30P6280.asm
+_key_scan_cur_key_id_65537_42   0x000020       data     static MC30P6280.asm
+_key_scan_filter_cnt_65537_42   0x000021       data     static MC30P6280.asm
+_key_scan_filter_key_id_65537_42   0x000022       data     static MC30P6280.asm
+_key_scan_press_cnt_65537_42   0x000023       data     static MC30P6280.asm
+_key_scan_last_key_id_65537_42   0x000024       data     static MC30P6280.asm
+_key_scan_flag_is_key_mode_hold_65537_42   0x000025       data     static MC30P6280.asm
+         __sdcc_interrupt   0x000008    program     static MC30P6280.asm
+                 _int_isr   0x000008    program     extern MC30P6280.asm
+         END_OF_INTERRUPT   0x00000f    program     static MC30P6280.asm
+                    _main   0x000010    program     extern MC30P6280.asm
+               _00233_DS_   0x000014    program     static MC30P6280.asm
+                _key_scan   0x00003e    program     extern MC30P6280.asm
+               _00173_DS_   0x00004b    program     static MC30P6280.asm
+               _00174_DS_   0x00004c    program     static MC30P6280.asm
+               _00225_DS_   0x000051    program     static MC30P6280.asm
+               _00176_DS_   0x000055    program     static MC30P6280.asm
+               _00178_DS_   0x00005b    program     static MC30P6280.asm
+               _00227_DS_   0x000060    program     static MC30P6280.asm
+               _00182_DS_   0x000066    program     static MC30P6280.asm
+               _00189_DS_   0x00006b    program     static MC30P6280.asm
+               _00190_DS_   0x000074    program     static MC30P6280.asm
+               _00191_DS_   0x000076    program     static MC30P6280.asm
+             _timer1_init   0x000077    program     extern MC30P6280.asm
+             _timer0_init   0x000078    program     extern MC30P6280.asm
+                 _led4_on   0x000079    program     extern MC30P6280.asm
+                 _led3_on   0x00007e    program     extern MC30P6280.asm
+                 _led2_on   0x000083    program     extern MC30P6280.asm
+                 _led1_on   0x000088    program     extern MC30P6280.asm
+             _led_all_off   0x00008d    program     extern MC30P6280.asm
+             _pen_pwr_off   0x000091    program     extern MC30P6280.asm
+              _pen_pwr_on   0x000093    program     extern MC30P6280.asm
+               _user_init   0x000095    program     extern MC30P6280.asm
+                _delay_ms   0x0000a2    program     extern MC30P6280.asm
+               _00124_DS_   0x0000a9    program     static MC30P6280.asm
+               _00121_DS_   0x0000b3    program     static MC30P6280.asm
+               _00123_DS_   0x0000c1    program     static MC30P6280.asm
+               _00127_DS_   0x0000cd    program     static MC30P6280.asm
+                _Sys_Init   0x0000ce    program     extern MC30P6280.asm
+                _LVD_Init   0x0000d4    program     extern MC30P6280.asm
+                 _IO_Init   0x0000da    program     extern MC30P6280.asm
+                   _C_RAM   0x0000e2    program     extern MC30P6280.asm
+     _code_MC30P6280_00D9   0x0000e9    program     static MC30P6280.asm
+                _INDFbits   00000000       data     extern mc30p6280.asm
+                    _INDF   00000000       data     extern mc30p6280.asm
+               _T0CNTbits   0x000001       data     extern mc30p6280.asm
+                   _T0CNT   0x000001       data     extern mc30p6280.asm
+                 _PCLbits   0x000002       data     extern mc30p6280.asm
+                     _PCL   0x000002       data     extern mc30p6280.asm
+              _STATUSbits   0x000003       data     extern mc30p6280.asm
+                  _STATUS   0x000003       data     extern mc30p6280.asm
+                 _FSRbits   0x000004       data     extern mc30p6280.asm
+                     _FSR   0x000004       data     extern mc30p6280.asm
+                  _P1bits   0x000006       data     extern mc30p6280.asm
+                      _P1   0x000006       data     extern mc30p6280.asm
+                 _MCRbits   0x000008       data     extern mc30p6280.asm
+                     _MCR   0x000008       data     extern mc30p6280.asm
+              _P1KBCRbits   0x000009       data     extern mc30p6280.asm
+                  _P1KBCR   0x000009       data     extern mc30p6280.asm
+              _PCLATHbits   0x00000a       data     extern mc30p6280.asm
+                  _PCLATH   0x00000a       data     extern mc30p6280.asm
+               _PDCONbits   0x00000b       data     extern mc30p6280.asm
+                   _PDCON   0x00000b       data     extern mc30p6280.asm
+               _ODCONbits   0x00000c       data     extern mc30p6280.asm
+                   _ODCON   0x00000c       data     extern mc30p6280.asm
+               _PUCONbits   0x00000d       data     extern mc30p6280.asm
+                   _PUCON   0x00000d       data     extern mc30p6280.asm
+                _INTEbits   0x00000e       data     extern mc30p6280.asm
+                    _INTE   0x00000e       data     extern mc30p6280.asm
+                _INTFbits   0x00000f       data     extern mc30p6280.asm
+                    _INTF   0x00000f       data     extern mc30p6280.asm
+                _T0CRbits   0x000041       data     extern mc30p6280.asm
+                    _T0CR   0x000041       data     extern mc30p6280.asm
+                _DDR1bits   0x000046       data     extern mc30p6280.asm
+                    _DDR1   0x000046       data     extern mc30p6280.asm
+               _TMRCRbits   0x00004b       data     extern mc30p6280.asm
+                   _TMRCR   0x00004b       data     extern mc30p6280.asm
+                _T1CRbits   0x00004c       data     extern mc30p6280.asm
+                    _T1CR   0x00004c       data     extern mc30p6280.asm
+               _T1CNTbits   0x00004d       data     extern mc30p6280.asm
+                   _T1CNT   0x00004d       data     extern mc30p6280.asm
+              _T1LOADbits   0x00004e       data     extern mc30p6280.asm
+                  _T1LOAD   0x00004e       data     extern mc30p6280.asm
+              _T1DATAbits   0x00004f       data     extern mc30p6280.asm
+                  _T1DATA   0x00004f       data     extern mc30p6280.asm
+ 

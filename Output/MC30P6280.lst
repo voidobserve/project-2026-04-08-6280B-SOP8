@@ -1,0 +1,1772 @@
+gplink-2.2.37 (Jan 22 2024)
+Listing File Generated: 2026-4-8  18:58:29
+ 
+ 
+Address  Value    Disassembly              Source
+-------  -----    -----------              ------
+                                           ;--------------------------------------------------------
+                                           ; external declarations
+                                           ;--------------------------------------------------------
+                                           	extern	_CLR_RAM
+                                           	extern	_INDFbits
+                                           	extern	_T0CNTbits
+                                           	extern	_PCLbits
+                                           	extern	_STATUSbits
+                                           	extern	_FSRbits
+                                           	extern	_P1bits
+                                           	extern	_MCRbits
+                                           	extern	_P1KBCRbits
+                                           	extern	_PCLATHbits
+                                           	extern	_PDCONbits
+                                           	extern	_ODCONbits
+                                           	extern	_PUCONbits
+                                           	extern	_INTEbits
+                                           	extern	_INTFbits
+                                           	extern	_T0CRbits
+                                           	extern	_DDR1bits
+                                           	extern	_TMRCRbits
+                                           	extern	_T1CRbits
+                                           	extern	_T1CNTbits
+                                           	extern	_T1LOADbits
+                                           	extern	_T1DATAbits
+                                           	extern	_INDF
+                                           	extern	_T0CNT
+                                           	extern	_PCL
+                                           	extern	_STATUS
+                                           	extern	_FSR
+                                           	extern	_P1
+                                           	extern	_MCR
+                                           	extern	_P1KBCR
+                                           	extern	_PCLATH
+                                           	extern	_PDCON
+                                           	extern	_ODCON
+                                           	extern	_PUCON
+                                           	extern	_INTE
+                                           	extern	_INTF
+                                           	extern	_T0CR
+                                           	extern	_DDR1
+                                           	extern	_TMRCR
+                                           	extern	_T1CR
+                                           	extern	_T1CNT
+                                           	extern	_T1LOAD
+                                           	extern	_T1DATA
+                                           ;--------------------------------------------------------
+                                           ; global declarations
+                                           ;--------------------------------------------------------
+                                           	global	_Sys_Init
+                                           	global	_LVD_Init
+                                           	global	_IO_Init
+                                           	global	_C_RAM
+                                           	global	_delay_ms
+                                           	global	_user_init
+                                           	global	_pen_pwr_on
+                                           	global	_pen_pwr_off
+                                           	global	_led_all_off
+                                           	global	_led1_on
+                                           	global	_led2_on
+                                           	global	_led3_on
+                                           	global	_led4_on
+                                           	global	_timer0_init
+                                           	global	_timer1_init
+                                           	global	_key_scan
+                                           	global	_main
+                                           	global	_int_isr
+                                           	global	_abuf
+                                           	global	_statusbuf
+                                           	global	_flag1
+                                           
+                                           	global STK06
+                                           	global STK05
+                                           	global STK04
+                                           	global STK03
+                                           	global STK02
+                                           	global STK01
+                                           	global STK00
+                                           
+                                           sharebank udata_ovr 0x0010
+                                           STK06	res 1
+                                           STK05	res 1
+                                           STK04	res 1
+                                           STK03	res 1
+                                           STK02	res 1
+                                           STK01	res 1
+                                           STK00	res 1
+                                           
+                                           ;--------------------------------------------------------
+                                           ; global definitions
+                                           ;--------------------------------------------------------
+                                           UD_MC30P6280_0	udata
+                                           _abuf	res	1
+                                           
+                                           UD_MC30P6280_1	udata
+                                           _statusbuf	res	1
+                                           
+                                           UD_MC30P6280_2	udata
+                                           _flag1	res	1
+                                           
+                                           ;--------------------------------------------------------
+                                           ; absolute symbol definitions
+                                           ;--------------------------------------------------------
+                                           ;--------------------------------------------------------
+                                           ; compiler-defined variables
+                                           ;--------------------------------------------------------
+                                           UDL_MC30P6280_0	udata
+                                           r0x1009	res	1
+                                           r0x1008	res	1
+                                           r0x1007	res	1
+                                           r0x1006	res	1
+                                           r0x100A	res	1
+                                           r0x100B	res	1
+                                           r0x100C	res	1
+                                           r0x100D	res	1
+                                           r0x100E	res	1
+                                           _key_scan_cur_key_id_65537_42	res	1
+                                           _key_scan_filter_cnt_65537_42	res	1
+                                           _key_scan_filter_key_id_65537_42	res	1
+                                           _key_scan_press_cnt_65537_42	res	1
+                                           _key_scan_last_key_id_65537_42	res	1
+                                           _key_scan_flag_is_key_mode_hold_65537_42	res	1
+                                           ;--------------------------------------------------------
+                                           ; initialized data
+                                           ;--------------------------------------------------------
+                                           
+                                           ;@Allocation info for local variables in function 'C_RAM'
+                                           ;@C_RAM CLR_RAM                   Allocated to registers ;size:2
+                                           ;@C_RAM IO_Init                   Allocated to registers ;size:2
+                                           ;@C_RAM LVD_Init                  Allocated to registers ;size:2
+                                           ;@C_RAM Sys_Init                  Allocated to registers ;size:2
+                                           ;@C_RAM C_RAM                     Allocated to registers ;size:2
+                                           ;@C_RAM INDFbits                  Allocated to registers ;size:1
+                                           ;@C_RAM T0CNTbits                 Allocated to registers ;size:1
+                                           ;@C_RAM PCLbits                   Allocated to registers ;size:1
+                                           ;@C_RAM STATUSbits                Allocated to registers ;size:1
+                                           ;@C_RAM FSRbits                   Allocated to registers ;size:1
+                                           ;@C_RAM P1bits                    Allocated to registers ;size:1
+                                           ;@C_RAM MCRbits                   Allocated to registers ;size:1
+                                           ;@C_RAM P1KBCRbits                Allocated to registers ;size:1
+                                           ;@C_RAM PCLATHbits                Allocated to registers ;size:1
+                                           ;@C_RAM PDCONbits                 Allocated to registers ;size:1
+                                           ;@C_RAM ODCONbits                 Allocated to registers ;size:1
+                                           ;@C_RAM PUCONbits                 Allocated to registers ;size:1
+                                           ;@C_RAM INTEbits                  Allocated to registers ;size:1
+                                           ;@C_RAM INTFbits                  Allocated to registers ;size:1
+                                           ;@C_RAM T0CRbits                  Allocated to registers ;size:1
+                                           ;@C_RAM DDR1bits                  Allocated to registers ;size:1
+                                           ;@C_RAM TMRCRbits                 Allocated to registers ;size:1
+                                           ;@C_RAM T1CRbits                  Allocated to registers ;size:1
+                                           ;@C_RAM T1CNTbits                 Allocated to registers ;size:1
+                                           ;@C_RAM T1LOADbits                Allocated to registers ;size:1
+                                           ;@C_RAM T1DATAbits                Allocated to registers ;size:1
+                                           ;@C_RAM abuf                      Allocated to registers ;size:1
+                                           ;@C_RAM statusbuf                 Allocated to registers ;size:1
+                                           ;@C_RAM flag1                     Allocated to registers ;size:1
+                                           ;@C_RAM INDF                      Allocated to registers ;size:1
+                                           ;@C_RAM T0CNT                     Allocated to registers ;size:1
+                                           ;@C_RAM PCL                       Allocated to registers ;size:1
+                                           ;@C_RAM STATUS                    Allocated to registers ;size:1
+                                           ;@C_RAM FSR                       Allocated to registers ;size:1
+                                           ;@C_RAM P1                        Allocated to registers ;size:1
+                                           ;@C_RAM MCR                       Allocated to registers ;size:1
+                                           ;@C_RAM P1KBCR                    Allocated to registers ;size:1
+                                           ;@C_RAM PCLATH                    Allocated to registers ;size:1
+                                           ;@C_RAM PDCON                     Allocated to registers ;size:1
+                                           ;@C_RAM ODCON                     Allocated to registers ;size:1
+                                           ;@C_RAM PUCON                     Allocated to registers ;size:1
+                                           ;@C_RAM INTE                      Allocated to registers ;size:1
+                                           ;@C_RAM INTF                      Allocated to registers ;size:1
+                                           ;@C_RAM T0CR                      Allocated to registers ;size:1
+                                           ;@C_RAM DDR1                      Allocated to registers ;size:1
+                                           ;@C_RAM TMRCR                     Allocated to registers ;size:1
+                                           ;@C_RAM T1CR                      Allocated to registers ;size:1
+                                           ;@C_RAM T1CNT                     Allocated to registers ;size:1
+                                           ;@C_RAM T1LOAD                    Allocated to registers ;size:1
+                                           ;@C_RAM T1DATA                    Allocated to registers ;size:1
+                                           ;@end Allocation info for local variables in function 'C_RAM';
+                                           ;@Allocation info for local variables in function 'IO_Init'
+                                           ;@end Allocation info for local variables in function 'IO_Init';
+                                           ;@Allocation info for local variables in function 'LVD_Init'
+                                           ;@end Allocation info for local variables in function 'LVD_Init';
+                                           ;@Allocation info for local variables in function 'Sys_Init'
+                                           ;@end Allocation info for local variables in function 'Sys_Init';
+                                           ;@Allocation info for local variables in function 'delay_ms'
+                                           ;@delay_ms xms                       Allocated to registers ;size:4
+                                           ;@delay_ms i                         Allocated to registers r0x100A r0x100B ;size:2
+                                           ;@end Allocation info for local variables in function 'delay_ms';
+                                           ;@Allocation info for local variables in function 'user_init'
+                                           ;@end Allocation info for local variables in function 'user_init';
+                                           ;@Allocation info for local variables in function 'pen_pwr_on'
+                                           ;@end Allocation info for local variables in function 'pen_pwr_on';
+                                           ;@Allocation info for local variables in function 'pen_pwr_off'
+                                           ;@end Allocation info for local variables in function 'pen_pwr_off';
+                                           ;@Allocation info for local variables in function 'led_all_off'
+                                           ;@end Allocation info for local variables in function 'led_all_off';
+                                           ;@Allocation info for local variables in function 'led1_on'
+                                           ;@end Allocation info for local variables in function 'led1_on';
+                                           ;@Allocation info for local variables in function 'led2_on'
+                                           ;@end Allocation info for local variables in function 'led2_on';
+                                           ;@Allocation info for local variables in function 'led3_on'
+                                           ;@end Allocation info for local variables in function 'led3_on';
+                                           ;@Allocation info for local variables in function 'led4_on'
+                                           ;@end Allocation info for local variables in function 'led4_on';
+                                           ;@Allocation info for local variables in function 'timer0_init'
+                                           ;@end Allocation info for local variables in function 'timer0_init';
+                                           ;@Allocation info for local variables in function 'timer1_init'
+                                           ;@end Allocation info for local variables in function 'timer1_init';
+                                           ;@Allocation info for local variables in function 'key_scan'
+                                           ;@key_scan last_key_id               Allocated to registers ;size:1
+                                           ;@key_scan press_cnt                 Allocated to registers ;size:1
+                                           ;@key_scan filter_cnt                Allocated to registers ;size:1
+                                           ;@key_scan filter_key_id             Allocated to registers ;size:1
+                                           ;@key_scan cur_key_id                Allocated to registers ;size:1
+                                           ;@key_scan flag_is_key_mode_hold     Allocated to registers ;size:1
+                                           ;@end Allocation info for local variables in function 'key_scan';
+                                           ;@Allocation info for local variables in function 'key_scan'
+                                           ;@key_scan last_key_id               Allocated to registers ;size:1
+                                           ;@key_scan press_cnt                 Allocated to registers ;size:1
+                                           ;@key_scan filter_cnt                Allocated to registers ;size:1
+                                           ;@key_scan filter_key_id             Allocated to registers ;size:1
+                                           ;@key_scan cur_key_id                Allocated to registers ;size:1
+                                           ;@key_scan flag_is_key_mode_hold     Allocated to registers ;size:1
+                                           ;@end Allocation info for local variables in function 'key_scan';
+                                           ;@Allocation info for local variables in function 'main'
+                                           ;@end Allocation info for local variables in function 'main';
+                                           ;@Allocation info for local variables in function 'int_isr'
+                                           ;@end Allocation info for local variables in function 'int_isr';
+                                           
+                                           ;--------------------------------------------------------
+                                           ; overlayable items in internal ram 
+                                           ;--------------------------------------------------------
+                                           ;	udata_ovr
+                                           ;--------------------------------------------------------
+                                           ; reset vector 
+                                           ;--------------------------------------------------------
+                                           STARTUP	code 0x0000
+000000   2810     goto    0x10             	goto	_main
+                                           ;--------------------------------------------------------
+                                           ; interrupt and initialization code
+                                           ;--------------------------------------------------------
+                                           c_interrupt	code	0x8
+                                           __sdcc_interrupt
+                                           ;***
+                                           ;  pBlock Stats: dbName = I
+                                           ;***
+                                           ;entry:  _int_isr	;Function start
+                                           ; 0 exit points
+                                           ;; Starting pCode block
+                                           _int_isr	;Function start
+                                           ; 0 exit points
+                                           ;	.line	380; "MC30P6280.c"	__endasm;
+                                           	;
+000008   15a6     movra   0x26             	movra	_abuf;
+000009   1103     swapar  0x3              	swapar	_STATUS;
+00000a   15a7     movra   0x27             	movra	_statusbuf;
+                                           	
+                                           ;	.line	386; "MC30P6280.c"	__endasm;
+                                           	;
+00000b   1127     swapar  0x27             	swapar	_statusbuf;
+00000c   1583     movra   0x3              	movra	_STATUS;
+00000d   11a6     swapr   0x26             	swapr	_abuf;
+00000e   1126     swapar  0x26             	swapar	_abuf;
+                                           	
+                                           END_OF_INTERRUPT
+                                           ;	.line	387; "MC30P6280.c"	}
+00000f   000d     retie                    	RETIE	
+                                           
+                                           ;--------------------------------------------------------
+                                           ; code
+                                           ;--------------------------------------------------------
+                                           code_MC30P6280	code
+                                           ;***
+                                           ;  pBlock Stats: dbName = M
+                                           ;***
+                                           ;entry:  _main	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;functions called:
+                                           ;   _Sys_Init
+                                           ;   _user_init
+                                           ;   _pen_pwr_on
+                                           ;   _led_all_off
+                                           ;   _led_all_off
+                                           ;   _led1_on
+                                           ;   _delay_ms
+                                           ;   _led_all_off
+                                           ;   _led2_on
+                                           ;   _delay_ms
+                                           ;   _led_all_off
+                                           ;   _led3_on
+                                           ;   _delay_ms
+                                           ;   _led_all_off
+                                           ;   _led4_on
+                                           ;   _delay_ms
+                                           ;   _Sys_Init
+                                           ;   _user_init
+                                           ;   _pen_pwr_on
+                                           ;   _led_all_off
+                                           ;   _led_all_off
+                                           ;   _led1_on
+                                           ;   _delay_ms
+                                           ;   _led_all_off
+                                           ;   _led2_on
+                                           ;   _delay_ms
+                                           ;   _led_all_off
+                                           ;   _led3_on
+                                           ;   _delay_ms
+                                           ;   _led_all_off
+                                           ;   _led4_on
+                                           ;   _delay_ms
+                                           ;3 compiler assigned registers:
+                                           ;   STK02
+                                           ;   STK01
+                                           ;   STK00
+                                           ;; Starting pCode block
+                                           _main	;Function start
+                                           ; 2 exit points
+                                           ;	.line	325; "MC30P6280.c"	Sys_Init();
+000010   20ce     call    0xce             	CALL	_Sys_Init
+                                           ;	.line	326; "MC30P6280.c"	user_init();
+000011   2095     call    0x95             	CALL	_user_init
+                                           ;	.line	328; "MC30P6280.c"	pen_pwr_on();
+000012   2093     call    0x93             	CALL	_pen_pwr_on
+                                           ;	.line	329; "MC30P6280.c"	led_all_off();
+000013   208d     call    0x8d             	CALL	_led_all_off
+                                           _00233_DS_
+                                           ;	.line	342; "MC30P6280.c"	led_all_off();
+000014   208d     call    0x8d             	CALL	_led_all_off
+                                           ;	.line	343; "MC30P6280.c"	led1_on();
+000015   2088     call    0x88             	CALL	_led1_on
+                                           ;	.line	344; "MC30P6280.c"	delay_ms(500);
+000016   0bf4     movai   0xf4             	MOVAI	0xf4
+000017   1594     movra   0x14             	MOVRA	STK02
+000018   0b01     movai   0x1              	MOVAI	0x01
+000019   1595     movra   0x15             	MOVRA	STK01
+00001a   0b00     movai   0                	MOVAI	0x00
+00001b   1596     movra   0x16             	MOVRA	STK00
+00001c   0b00     movai   0                	MOVAI	0x00
+00001d   20a2     call    0xa2             	CALL	_delay_ms
+                                           ;	.line	348; "MC30P6280.c"	led_all_off();
+00001e   208d     call    0x8d             	CALL	_led_all_off
+                                           ;	.line	349; "MC30P6280.c"	led2_on();
+00001f   2083     call    0x83             	CALL	_led2_on
+                                           ;	.line	350; "MC30P6280.c"	delay_ms(500);
+000020   0bf4     movai   0xf4             	MOVAI	0xf4
+000021   1594     movra   0x14             	MOVRA	STK02
+000022   0b01     movai   0x1              	MOVAI	0x01
+000023   1595     movra   0x15             	MOVRA	STK01
+000024   0b00     movai   0                	MOVAI	0x00
+000025   1596     movra   0x16             	MOVRA	STK00
+000026   0b00     movai   0                	MOVAI	0x00
+000027   20a2     call    0xa2             	CALL	_delay_ms
+                                           ;	.line	354; "MC30P6280.c"	led_all_off();
+000028   208d     call    0x8d             	CALL	_led_all_off
+                                           ;	.line	355; "MC30P6280.c"	led3_on();
+000029   207e     call    0x7e             	CALL	_led3_on
+                                           ;	.line	356; "MC30P6280.c"	delay_ms(500);
+00002a   0bf4     movai   0xf4             	MOVAI	0xf4
+00002b   1594     movra   0x14             	MOVRA	STK02
+00002c   0b01     movai   0x1              	MOVAI	0x01
+00002d   1595     movra   0x15             	MOVRA	STK01
+00002e   0b00     movai   0                	MOVAI	0x00
+00002f   1596     movra   0x16             	MOVRA	STK00
+000030   0b00     movai   0                	MOVAI	0x00
+000031   20a2     call    0xa2             	CALL	_delay_ms
+                                           ;	.line	360; "MC30P6280.c"	led_all_off();
+000032   208d     call    0x8d             	CALL	_led_all_off
+                                           ;	.line	361; "MC30P6280.c"	led4_on();
+000033   2079     call    0x79             	CALL	_led4_on
+                                           ;	.line	362; "MC30P6280.c"	delay_ms(500);
+000034   0bf4     movai   0xf4             	MOVAI	0xf4
+000035   1594     movra   0x14             	MOVRA	STK02
+000036   0b01     movai   0x1              	MOVAI	0x01
+000037   1595     movra   0x15             	MOVRA	STK01
+000038   0b00     movai   0                	MOVAI	0x00
+000039   1596     movra   0x16             	MOVRA	STK00
+00003a   0b00     movai   0                	MOVAI	0x00
+00003b   20a2     call    0xa2             	CALL	_delay_ms
+00003c   2814     goto    0x14             	GOTO	_00233_DS_
+                                           ;	.line	366; "MC30P6280.c"	}
+00003d   000c     return                   	RETURN	
+                                           ; exit point of _main
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _key_scan	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;1 compiler assigned register :
+                                           ;   r0x100E
+                                           ;; Starting pCode block
+                                           _key_scan	;Function start
+                                           ; 2 exit points
+                                           ;	.line	202; "MC30P6280.c"	PUCON &= ~(0x01 << 0); // 上拉电阻 20K
+00003e   3c0d     bclr    0xd, 0           	BCLR	_PUCON,0
+                                           ;	.line	203; "MC30P6280.c"	DDR1 |= 0x01 << 0;	   // 输入模式
+00003f   3846     bset    0x46, 0          	BSET	_DDR1,0
+                                           ;	.line	215; "MC30P6280.c"	volatile u8 cur_key_id = KEY_ID_NONE;
+000040   1da0     clrr    0x20             	CLRR	_key_scan_cur_key_id_65537_42
+                                           ;	.line	219; "MC30P6280.c"	if (1 == KEY_SCAN_PIN)
+000041   1d9f     clrr    0x1f             	CLRR	r0x100E
+000042   3406     jbclr   0x6, 0           	JBCLR	_P1bits,0
+000043   199f     incr    0x1f             	INCR	r0x100E
+000044   161f     movar   0x1f             	MOVAR	r0x100E
+000045   0801     xorai   0x1              	XORAI	0x01
+000046   3103     jbset   0x3, 0x2         	JBSET	STATUS,2
+000047   284b     goto    0x4b             	GOTO	_00173_DS_
+                                           ;	.line	221; "MC30P6280.c"	cur_key_id = KEY_ID_VAILD;
+000048   0b01     movai   0x1              	MOVAI	0x01
+000049   15a0     movra   0x20             	MOVRA	_key_scan_cur_key_id_65537_42
+00004a   284c     goto    0x4c             	GOTO	_00174_DS_
+                                           _00173_DS_
+                                           ;	.line	225; "MC30P6280.c"	cur_key_id = KEY_ID_NONE;
+00004b   1da0     clrr    0x20             	CLRR	_key_scan_cur_key_id_65537_42
+                                           _00174_DS_
+                                           ;	.line	228; "MC30P6280.c"	if (cur_key_id != filter_key_id)
+00004c   1622     movar   0x22             	MOVAR	_key_scan_filter_key_id_65537_42
+00004d   1020     xorar   0x20             	XORAR	_key_scan_cur_key_id_65537_42
+00004e   3103     jbset   0x3, 0x2         	JBSET	STATUS,2
+00004f   2851     goto    0x51             	GOTO	_00225_DS_
+000050   2855     goto    0x55             	GOTO	_00176_DS_
+                                           _00225_DS_
+                                           ;	.line	231; "MC30P6280.c"	filter_cnt = 0;
+000051   1da1     clrr    0x21             	CLRR	_key_scan_filter_cnt_65537_42
+                                           ;	.line	232; "MC30P6280.c"	filter_key_id = cur_key_id;
+000052   1620     movar   0x20             	MOVAR	_key_scan_cur_key_id_65537_42
+000053   15a2     movra   0x22             	MOVRA	_key_scan_filter_key_id_65537_42
+                                           ;	.line	233; "MC30P6280.c"	return;
+000054   2876     goto    0x76             	GOTO	_00191_DS_
+                                           ;;unsigned compare: left < lit(0x3=3), size=1
+                                           _00176_DS_
+                                           ;	.line	236; "MC30P6280.c"	if (filter_cnt < KEY_FILTER_TIMES)
+000055   0b03     movai   0x3              	MOVAI	0x03
+000056   1221     rsubar  0x21             	RSUBAR	_key_scan_filter_cnt_65537_42
+000057   3403     jbclr   0x3, 0           	JBCLR	STATUS,0
+000058   285b     goto    0x5b             	GOTO	_00178_DS_
+                                           ;;genSkipc:3291: created from rifx:013B5EFC
+                                           ;	.line	240; "MC30P6280.c"	filter_cnt++;
+000059   19a1     incr    0x21             	INCR	_key_scan_filter_cnt_65537_42
+                                           ;	.line	241; "MC30P6280.c"	return;
+00005a   2876     goto    0x76             	GOTO	_00191_DS_
+                                           _00178_DS_
+                                           ;	.line	246; "MC30P6280.c"	if (last_key_id != cur_key_id)
+00005b   1620     movar   0x20             	MOVAR	_key_scan_cur_key_id_65537_42
+00005c   1024     xorar   0x24             	XORAR	_key_scan_last_key_id_65537_42
+00005d   3103     jbset   0x3, 0x2         	JBSET	STATUS,2
+00005e   2860     goto    0x60             	GOTO	_00227_DS_
+00005f   286b     goto    0x6b             	GOTO	_00189_DS_
+                                           _00227_DS_
+                                           ;	.line	249; "MC30P6280.c"	if (last_key_id == KEY_ID_NONE)
+000060   0b00     movai   0                	MOVAI	0x00
+000061   1724     orar    0x24             	ORAR	_key_scan_last_key_id_65537_42
+000062   3103     jbset   0x3, 0x2         	JBSET	STATUS,2
+000063   2866     goto    0x66             	GOTO	_00182_DS_
+                                           ;	.line	252; "MC30P6280.c"	press_cnt = 0;
+000064   1da3     clrr    0x23             	CLRR	_key_scan_press_cnt_65537_42
+000065   2874     goto    0x74             	GOTO	_00190_DS_
+                                           _00182_DS_
+                                           ;	.line	254; "MC30P6280.c"	else if (cur_key_id == KEY_ID_NONE)
+000066   0b00     movai   0                	MOVAI	0x00
+000067   1720     orar    0x20             	ORAR	_key_scan_cur_key_id_65537_42
+000068   3103     jbset   0x3, 0x2         	JBSET	STATUS,2
+000069   2874     goto    0x74             	GOTO	_00190_DS_
+                                           ;	.line	257; "MC30P6280.c"	if (press_cnt < 75)
+00006a   2874     goto    0x74             	GOTO	_00190_DS_
+                                           _00189_DS_
+                                           ;	.line	278; "MC30P6280.c"	else if (cur_key_id != KEY_ID_NONE)
+00006b   0b00     movai   0                	MOVAI	0x00
+00006c   1720     orar    0x20             	ORAR	_key_scan_cur_key_id_65537_42
+00006d   3503     jbclr   0x3, 0x2         	JBCLR	STATUS,2
+00006e   2874     goto    0x74             	GOTO	_00190_DS_
+                                           ;;unsigned compare: left < lit(0xFF=255), size=1
+                                           ;	.line	281; "MC30P6280.c"	if (press_cnt < 255)
+00006f   0bff     movai   0xff             	MOVAI	0xff
+000070   1223     rsubar  0x23             	RSUBAR	_key_scan_press_cnt_65537_42
+000071   3403     jbclr   0x3, 0           	JBCLR	STATUS,0
+000072   2874     goto    0x74             	GOTO	_00190_DS_
+                                           ;;genSkipc:3291: created from rifx:013B5EFC
+                                           ;	.line	282; "MC30P6280.c"	press_cnt++;
+000073   19a3     incr    0x23             	INCR	_key_scan_press_cnt_65537_42
+                                           _00190_DS_
+                                           ;	.line	319; "MC30P6280.c"	last_key_id = cur_key_id;
+000074   1620     movar   0x20             	MOVAR	_key_scan_cur_key_id_65537_42
+000075   15a4     movra   0x24             	MOVRA	_key_scan_last_key_id_65537_42
+                                           _00191_DS_
+                                           ;	.line	321; "MC30P6280.c"	}
+000076   000c     return                   	RETURN	
+                                           ; exit point of _key_scan
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _timer1_init	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;; Starting pCode block
+                                           _timer1_init	;Function start
+                                           ; 2 exit points
+                                           ;	.line	196; "MC30P6280.c"	}
+000077   000c     return                   	RETURN	
+                                           ; exit point of _timer1_init
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _timer0_init	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;; Starting pCode block
+                                           _timer0_init	;Function start
+                                           ; 2 exit points
+                                           ;	.line	191; "MC30P6280.c"	}
+000078   000c     return                   	RETURN	
+                                           ; exit point of _timer0_init
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _led4_on	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;; Starting pCode block
+                                           _led4_on	;Function start
+                                           ; 2 exit points
+                                           ;	.line	181; "MC30P6280.c"	P1 &= ~(0x01 << 0);	  // P10 输出低电平
+000079   3c06     bclr    0x6, 0           	BCLR	_P1,0
+                                           ;	.line	182; "MC30P6280.c"	DDR1 &= ~(0x01 << 0); // P10 输出模式
+00007a   3c46     bclr    0x46, 0          	BCLR	_DDR1,0
+                                           ;	.line	184; "MC30P6280.c"	P1 |= (0x01 << 2);	  // P12 输出高电平
+00007b   3906     bset    0x6, 0x2         	BSET	_P1,2
+                                           ;	.line	185; "MC30P6280.c"	DDR1 &= ~(0x01 << 2); // P12 输出模式
+00007c   3d46     bclr    0x46, 0x2        	BCLR	_DDR1,2
+                                           ;	.line	186; "MC30P6280.c"	}
+00007d   000c     return                   	RETURN	
+                                           ; exit point of _led4_on
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _led3_on	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;; Starting pCode block
+                                           _led3_on	;Function start
+                                           ; 2 exit points
+                                           ;	.line	169; "MC30P6280.c"	P1 &= ~(0x01 << 2);	  // P12 输出低电平
+00007e   3d06     bclr    0x6, 0x2         	BCLR	_P1,2
+                                           ;	.line	170; "MC30P6280.c"	DDR1 &= ~(0x01 << 2); // P12 输出模式
+00007f   3d46     bclr    0x46, 0x2        	BCLR	_DDR1,2
+                                           ;	.line	172; "MC30P6280.c"	P1 |= (0x01 << 0);	  // P10 输出高电平
+000080   3806     bset    0x6, 0           	BSET	_P1,0
+                                           ;	.line	173; "MC30P6280.c"	DDR1 &= ~(0x01 << 0); // P10 输出模式
+000081   3c46     bclr    0x46, 0          	BCLR	_DDR1,0
+                                           ;	.line	174; "MC30P6280.c"	}
+000082   000c     return                   	RETURN	
+                                           ; exit point of _led3_on
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _led2_on	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;; Starting pCode block
+                                           _led2_on	;Function start
+                                           ; 2 exit points
+                                           ;	.line	156; "MC30P6280.c"	P1 &= ~(0x01 << 1);	  // P11 输出低电平
+000083   3c86     bclr    0x6, 0x1         	BCLR	_P1,1
+                                           ;	.line	157; "MC30P6280.c"	DDR1 &= ~(0x01 << 1); // P11 输出模式
+000084   3cc6     bclr    0x46, 0x1        	BCLR	_DDR1,1
+                                           ;	.line	160; "MC30P6280.c"	P1 |= (0x01 << 0);	  // P10 输出高电平
+000085   3806     bset    0x6, 0           	BSET	_P1,0
+                                           ;	.line	161; "MC30P6280.c"	DDR1 &= ~(0x01 << 0); // P10 输出模式
+000086   3c46     bclr    0x46, 0          	BCLR	_DDR1,0
+                                           ;	.line	162; "MC30P6280.c"	}
+000087   000c     return                   	RETURN	
+                                           ; exit point of _led2_on
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _led1_on	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;; Starting pCode block
+                                           _led1_on	;Function start
+                                           ; 2 exit points
+                                           ;	.line	141; "MC30P6280.c"	P1 &= ~(0x01 << 0);
+000088   3c06     bclr    0x6, 0           	BCLR	_P1,0
+                                           ;	.line	142; "MC30P6280.c"	DDR1 &= ~(0x01 << 0); // 输出模式
+000089   3c46     bclr    0x46, 0          	BCLR	_DDR1,0
+                                           ;	.line	146; "MC30P6280.c"	P1 |= (0x01 << 1);	  // P11 输出高电平
+00008a   3886     bset    0x6, 0x1         	BSET	_P1,1
+                                           ;	.line	147; "MC30P6280.c"	DDR1 &= ~(0x01 << 1); // P11 输出模式
+00008b   3cc6     bclr    0x46, 0x1        	BCLR	_DDR1,1
+                                           ;	.line	148; "MC30P6280.c"	}
+00008c   000c     return                   	RETURN	
+                                           ; exit point of _led1_on
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _led_all_off	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;; Starting pCode block
+                                           _led_all_off	;Function start
+                                           ; 2 exit points
+                                           ;	.line	127; "MC30P6280.c"	PUCON |= (0x01 << 0); // 关闭上拉
+00008d   380d     bset    0xd, 0           	BSET	_PUCON,0
+                                           ;	.line	132; "MC30P6280.c"	(0x01 << 2);  // P12
+00008e   0b07     movai   0x7              	MOVAI	0x07
+00008f   17c6     orra    0x46             	ORRA	_DDR1
+                                           ;	.line	133; "MC30P6280.c"	}
+000090   000c     return                   	RETURN	
+                                           ; exit point of _led_all_off
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _pen_pwr_off	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;; Starting pCode block
+                                           _pen_pwr_off	;Function start
+                                           ; 2 exit points
+                                           ;	.line	118; "MC30P6280.c"	PUCON &= ~(0x01 << 4); // 上拉电阻 20K
+000091   3e0d     bclr    0xd, 0x4         	BCLR	_PUCON,4
+                                           ;	.line	121; "MC30P6280.c"	}
+000092   000c     return                   	RETURN	
+                                           ; exit point of _pen_pwr_off
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _pen_pwr_on	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;; Starting pCode block
+                                           _pen_pwr_on	;Function start
+                                           ; 2 exit points
+                                           ;	.line	111; "MC30P6280.c"	PDCON &= ~(0x01 << 4); // 下拉电阻 20K
+000093   3e0b     bclr    0xb, 0x4         	BCLR	_PDCON,4
+                                           ;	.line	114; "MC30P6280.c"	}
+000094   000c     return                   	RETURN	
+                                           ; exit point of _pen_pwr_on
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _user_init	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;functions called:
+                                           ;   _delay_ms
+                                           ;   _delay_ms
+                                           ;3 compiler assigned registers:
+                                           ;   STK02
+                                           ;   STK01
+                                           ;   STK00
+                                           ;; Starting pCode block
+                                           _user_init	;Function start
+                                           ; 2 exit points
+                                           ;	.line	97; "MC30P6280.c"	PUCON &= ~(0x01 << 0); // 上拉电阻 20K
+000095   3c0d     bclr    0xd, 0           	BCLR	_PUCON,0
+                                           ;	.line	98; "MC30P6280.c"	DDR1 |= 0x01 << 0;	   // 输入模式
+000096   3846     bset    0x46, 0          	BSET	_DDR1,0
+                                           ;	.line	101; "MC30P6280.c"	DDR1 |= 0x01 << 4; // P14 输入模式
+000097   3a46     bset    0x46, 0x4        	BSET	_DDR1,4
+                                           ;	.line	104; "MC30P6280.c"	DDR1 |= 0x01 << 5; // 输入模式
+000098   3ac6     bset    0x46, 0x5        	BSET	_DDR1,5
+                                           ;	.line	106; "MC30P6280.c"	delay_ms(1); // 等待系统稳定
+000099   0b01     movai   0x1              	MOVAI	0x01
+00009a   1594     movra   0x14             	MOVRA	STK02
+00009b   0b00     movai   0                	MOVAI	0x00
+00009c   1595     movra   0x15             	MOVRA	STK01
+00009d   0b00     movai   0                	MOVAI	0x00
+00009e   1596     movra   0x16             	MOVRA	STK00
+00009f   0b00     movai   0                	MOVAI	0x00
+0000a0   20a2     call    0xa2             	CALL	_delay_ms
+                                           ;	.line	107; "MC30P6280.c"	}
+0000a1   000c     return                   	RETURN	
+                                           ; exit point of _user_init
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _delay_ms	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;11 compiler assigned registers:
+                                           ;   r0x1006
+                                           ;   STK00
+                                           ;   r0x1007
+                                           ;   STK01
+                                           ;   r0x1008
+                                           ;   STK02
+                                           ;   r0x1009
+                                           ;   r0x100A
+                                           ;   r0x100B
+                                           ;   r0x100C
+                                           ;   r0x100D
+                                           ;; Starting pCode block
+                                           _delay_ms	;Function start
+                                           ; 2 exit points
+                                           ;	.line	79; "MC30P6280.c"	void delay_ms(u32 xms)
+0000a2   159a     movra   0x1a             	MOVRA	r0x1006
+0000a3   1616     movar   0x16             	MOVAR	STK00
+0000a4   1599     movra   0x19             	MOVRA	r0x1007
+0000a5   1615     movar   0x15             	MOVAR	STK01
+0000a6   1598     movra   0x18             	MOVRA	r0x1008
+0000a7   1614     movar   0x14             	MOVAR	STK02
+0000a8   1597     movra   0x17             	MOVRA	r0x1009
+                                           _00124_DS_
+                                           ;	.line	81; "MC30P6280.c"	while (xms)
+0000a9   1617     movar   0x17             	MOVAR	r0x1009
+0000aa   1718     orar    0x18             	ORAR	r0x1008
+0000ab   1719     orar    0x19             	ORAR	r0x1007
+0000ac   171a     orar    0x1a             	ORAR	r0x1006
+0000ad   3503     jbclr   0x3, 0x2         	JBCLR	STATUS,2
+0000ae   28cd     goto    0xcd             	GOTO	_00127_DS_
+                                           ;	.line	84; "MC30P6280.c"	while (i--)
+0000af   0b13     movai   0x13             	MOVAI	0x13
+0000b0   159b     movra   0x1b             	MOVRA	r0x100A
+0000b1   0b02     movai   0x2              	MOVAI	0x02
+0000b2   159c     movra   0x1c             	MOVRA	r0x100B
+                                           _00121_DS_
+0000b3   161b     movar   0x1b             	MOVAR	r0x100A
+0000b4   159d     movra   0x1d             	MOVRA	r0x100C
+0000b5   161c     movar   0x1c             	MOVAR	r0x100B
+0000b6   159e     movra   0x1e             	MOVRA	r0x100D
+0000b7   0bff     movai   0xff             	MOVAI	0xff
+0000b8   1f9b     addra   0x1b             	ADDRA	r0x100A
+0000b9   3003     jbset   0x3, 0           	JBSET	STATUS,0
+0000ba   1b9c     decr    0x1c             	DECR	r0x100B
+0000bb   161d     movar   0x1d             	MOVAR	r0x100C
+0000bc   171e     orar    0x1e             	ORAR	r0x100D
+0000bd   3503     jbclr   0x3, 0x2         	JBCLR	STATUS,2
+0000be   28c1     goto    0xc1             	GOTO	_00123_DS_
+                                           ;	.line	86; "MC30P6280.c"	Nop();
+0000bf   0000     nop                      	nop	
+0000c0   28b3     goto    0xb3             	GOTO	_00121_DS_
+                                           _00123_DS_
+                                           ;	.line	88; "MC30P6280.c"	xms--;
+0000c1   0bff     movai   0xff             	MOVAI	0xff
+0000c2   1f97     addra   0x17             	ADDRA	r0x1009
+0000c3   0bff     movai   0xff             	MOVAI	0xff
+0000c4   3003     jbset   0x3, 0           	JBSET	STATUS,0
+0000c5   1f98     addra   0x18             	ADDRA	r0x1008
+0000c6   0bff     movai   0xff             	MOVAI	0xff
+0000c7   3003     jbset   0x3, 0           	JBSET	STATUS,0
+0000c8   1f99     addra   0x19             	ADDRA	r0x1007
+0000c9   0bff     movai   0xff             	MOVAI	0xff
+0000ca   3003     jbset   0x3, 0           	JBSET	STATUS,0
+0000cb   1f9a     addra   0x1a             	ADDRA	r0x1006
+0000cc   28a9     goto    0xa9             	GOTO	_00124_DS_
+                                           _00127_DS_
+                                           ;	.line	90; "MC30P6280.c"	}
+0000cd   000c     return                   	RETURN	
+                                           ; exit point of _delay_ms
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _Sys_Init	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;functions called:
+                                           ;   _C_RAM
+                                           ;   _IO_Init
+                                           ;   _LVD_Init
+                                           ;   _C_RAM
+                                           ;   _IO_Init
+                                           ;   _LVD_Init
+                                           ;; Starting pCode block
+                                           _Sys_Init	;Function start
+                                           ; 2 exit points
+                                           ;	.line	70; "MC30P6280.c"	GIE = 0;
+0000ce   3f8e     bclr    0xe, 0x7         	BCLR	_INTEbits,7
+                                           ;	.line	71; "MC30P6280.c"	C_RAM();
+0000cf   20e2     call    0xe2             	CALL	_C_RAM
+                                           ;	.line	72; "MC30P6280.c"	IO_Init();
+0000d0   20da     call    0xda             	CALL	_IO_Init
+                                           ;	.line	73; "MC30P6280.c"	LVD_Init();
+0000d1   20d4     call    0xd4             	CALL	_LVD_Init
+                                           ;	.line	74; "MC30P6280.c"	GIE = 1;
+0000d2   3b8e     bset    0xe, 0x7         	BSET	_INTEbits,7
+                                           ;	.line	75; "MC30P6280.c"	}
+0000d3   000c     return                   	RETURN	
+                                           ; exit point of _Sys_Init
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _LVD_Init	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;; Starting pCode block
+                                           _LVD_Init	;Function start
+                                           ; 2 exit points
+                                           ;	.line	58; "MC30P6280.c"	MCR &= ~(DEF_SET_BIT1 | DEF_SET_BIT2 | DEF_SET_BIT3 | DEF_SET_BIT4);
+0000d4   0be1     movai   0xe1             	MOVAI	0xe1
+0000d5   1e88     andra   0x8              	ANDRA	_MCR
+                                           ;	.line	59; "MC30P6280.c"	MCR |= (DEF_SET_BIT2 | DEF_SET_BIT3 | DEF_SET_BIT4); // 4V
+0000d6   0b1c     movai   0x1c             	MOVAI	0x1c
+0000d7   1788     orra    0x8              	ORRA	_MCR
+                                           ;	.line	60; "MC30P6280.c"	LVDEN = 1;											 // 使能LVD
+0000d8   3808     bset    0x8, 0           	BSET	_MCRbits,0
+                                           ;	.line	61; "MC30P6280.c"	}
+0000d9   000c     return                   	RETURN	
+                                           ; exit point of _LVD_Init
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _IO_Init	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;; Starting pCode block
+                                           _IO_Init	;Function start
+                                           ; 2 exit points
+                                           ;	.line	44; "MC30P6280.c"	P1 = 0x00;	  // 1:input 0:output
+0000da   1d86     clrr    0x6              	CLRR	_P1
+                                           ;	.line	45; "MC30P6280.c"	DDR1 = 0x00;  // 1:input 0:output
+0000db   1dc6     clrr    0x46             	CLRR	_DDR1
+                                           ;	.line	46; "MC30P6280.c"	PUCON = 0xff; // 0:Effective 1:invalid
+0000dc   0bff     movai   0xff             	MOVAI	0xff
+0000dd   158d     movra   0xd              	MOVRA	_PUCON
+                                           ;	.line	47; "MC30P6280.c"	PDCON = 0xff; // 0:Effective 1:invalid
+0000de   0bff     movai   0xff             	MOVAI	0xff
+0000df   158b     movra   0xb              	MOVRA	_PDCON
+                                           ;	.line	48; "MC30P6280.c"	ODCON = 0x00; // 0:推挽输出  1:开漏输出
+0000e0   1d8c     clrr    0xc              	CLRR	_ODCON
+                                           ;	.line	49; "MC30P6280.c"	}
+0000e1   000c     return                   	RETURN	
+                                           ; exit point of _IO_Init
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _C_RAM	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;; Starting pCode block
+                                           _C_RAM	;Function start
+                                           ; 2 exit points
+                                           ;	.line	33; "MC30P6280.c"	__endasm;
+                                           	;
+0000e2   0b3f     movai   0x3f             	movai	0x3F;
+0000e3   1584     movra   0x4              	movra	FSR;
+0000e4   0b2f     movai   0x2f             	movai	47;
+0000e5   15bf     movra   0x3f             	movra	0x3F;
+0000e6   1b84     decr    0x4              	decr	FSR;
+0000e7   1d80     clrr    0                	clrr	INDF;
+0000e8   1abf     djzr    0x3f             	djzr	0x3F;
+0000e9   28e6     goto    0xe6             	goto	$ - 3;
+0000ea   1dbf     clrr    0x3f             	clrr	0x3F;
+                                           	
+                                           ;	.line	34; "MC30P6280.c"	}
+0000eb   000c     return                   	RETURN	
+                                           ; exit point of _C_RAM
+                                           
+                                           
+                                           ;	code size estimation:
+                                           ;	  211+    0 =   211 instructions (  422 byte)
+                                           
+                                           	end
+                                           ;--------------------------------------------------------
+                                           ; File Created by SN-SDCC : SinoMCU ANSI-C Compiler
+                                           ; Version 2.0.0 (Dec 11 2019) (MINGW32)
+                                           ; This file was generated Wed Apr 08 18:58:29 2026
+                                           ;--------------------------------------------------------
+                                           ; MC30 port for the RISC core
+                                           ;--------------------------------------------------------
+                                           ;	.file	"MC30P6280.c"
+                                           	list	p=1K6280
+                                           	radix dec
+                                           	include "1K6280.inc"
+                                           ;--------------------------------------------------------
+                                           ; external declarations
+                                           ;--------------------------------------------------------
+                                           	extern	_CLR_RAM
+                                           	extern	_INDFbits
+                                           	extern	_T0CNTbits
+                                           	extern	_PCLbits
+                                           	extern	_STATUSbits
+                                           	extern	_FSRbits
+                                           	extern	_P1bits
+                                           	extern	_MCRbits
+                                           	extern	_P1KBCRbits
+                                           	extern	_PCLATHbits
+                                           	extern	_PDCONbits
+                                           	extern	_ODCONbits
+                                           	extern	_PUCONbits
+                                           	extern	_INTEbits
+                                           	extern	_INTFbits
+                                           	extern	_T0CRbits
+                                           	extern	_DDR1bits
+                                           	extern	_TMRCRbits
+                                           	extern	_T1CRbits
+                                           	extern	_T1CNTbits
+                                           	extern	_T1LOADbits
+                                           	extern	_T1DATAbits
+                                           	extern	_INDF
+                                           	extern	_T0CNT
+                                           	extern	_PCL
+                                           	extern	_STATUS
+                                           	extern	_FSR
+                                           	extern	_P1
+                                           	extern	_MCR
+                                           	extern	_P1KBCR
+                                           	extern	_PCLATH
+                                           	extern	_PDCON
+                                           	extern	_ODCON
+                                           	extern	_PUCON
+                                           	extern	_INTE
+                                           	extern	_INTF
+                                           	extern	_T0CR
+                                           	extern	_DDR1
+                                           	extern	_TMRCR
+                                           	extern	_T1CR
+                                           	extern	_T1CNT
+                                           	extern	_T1LOAD
+                                           	extern	_T1DATA
+                                           ;--------------------------------------------------------
+                                           ; global declarations
+                                           ;--------------------------------------------------------
+                                           	global	_Sys_Init
+                                           	global	_LVD_Init
+                                           	global	_IO_Init
+                                           	global	_C_RAM
+                                           	global	_delay_ms
+                                           	global	_user_init
+                                           	global	_pen_pwr_on
+                                           	global	_pen_pwr_off
+                                           	global	_led_all_off
+                                           	global	_led1_on
+                                           	global	_led2_on
+                                           	global	_led3_on
+                                           	global	_led4_on
+                                           	global	_timer0_init
+                                           	global	_timer1_init
+                                           	global	_key_scan
+                                           	global	_main
+                                           	global	_int_isr
+                                           	global	_abuf
+                                           	global	_statusbuf
+                                           	global	_flag1
+                                           
+                                           	global STK06
+                                           	global STK05
+                                           	global STK04
+                                           	global STK03
+                                           	global STK02
+                                           	global STK01
+                                           	global STK00
+                                           
+                                           sharebank udata_ovr 0x0010
+                                           STK06	res 1
+                                           STK05	res 1
+                                           STK04	res 1
+                                           STK03	res 1
+                                           STK02	res 1
+                                           STK01	res 1
+                                           STK00	res 1
+                                           
+                                           ;--------------------------------------------------------
+                                           ; global definitions
+                                           ;--------------------------------------------------------
+                                           UD_MC30P6280_0	udata
+                                           _abuf	res	1
+                                           
+                                           UD_MC30P6280_1	udata
+                                           _statusbuf	res	1
+                                           
+                                           UD_MC30P6280_2	udata
+                                           _flag1	res	1
+                                           
+                                           ;--------------------------------------------------------
+                                           ; absolute symbol definitions
+                                           ;--------------------------------------------------------
+                                           ;--------------------------------------------------------
+                                           ; compiler-defined variables
+                                           ;--------------------------------------------------------
+                                           UDL_MC30P6280_0	udata
+                                           r0x1009	res	1
+                                           r0x1008	res	1
+                                           r0x1007	res	1
+                                           r0x1006	res	1
+                                           r0x100A	res	1
+                                           r0x100B	res	1
+                                           r0x100C	res	1
+                                           r0x100D	res	1
+                                           r0x100E	res	1
+                                           _key_scan_cur_key_id_65537_42	res	1
+                                           _key_scan_filter_cnt_65537_42	res	1
+                                           _key_scan_filter_key_id_65537_42	res	1
+                                           _key_scan_press_cnt_65537_42	res	1
+                                           _key_scan_last_key_id_65537_42	res	1
+                                           _key_scan_flag_is_key_mode_hold_65537_42	res	1
+                                           ;--------------------------------------------------------
+                                           ; initialized data
+                                           ;--------------------------------------------------------
+                                           
+                                           ;@Allocation info for local variables in function 'C_RAM'
+                                           ;@C_RAM CLR_RAM                   Allocated to registers ;size:2
+                                           ;@C_RAM IO_Init                   Allocated to registers ;size:2
+                                           ;@C_RAM LVD_Init                  Allocated to registers ;size:2
+                                           ;@C_RAM Sys_Init                  Allocated to registers ;size:2
+                                           ;@C_RAM C_RAM                     Allocated to registers ;size:2
+                                           ;@C_RAM INDFbits                  Allocated to registers ;size:1
+                                           ;@C_RAM T0CNTbits                 Allocated to registers ;size:1
+                                           ;@C_RAM PCLbits                   Allocated to registers ;size:1
+                                           ;@C_RAM STATUSbits                Allocated to registers ;size:1
+                                           ;@C_RAM FSRbits                   Allocated to registers ;size:1
+                                           ;@C_RAM P1bits                    Allocated to registers ;size:1
+                                           ;@C_RAM MCRbits                   Allocated to registers ;size:1
+                                           ;@C_RAM P1KBCRbits                Allocated to registers ;size:1
+                                           ;@C_RAM PCLATHbits                Allocated to registers ;size:1
+                                           ;@C_RAM PDCONbits                 Allocated to registers ;size:1
+                                           ;@C_RAM ODCONbits                 Allocated to registers ;size:1
+                                           ;@C_RAM PUCONbits                 Allocated to registers ;size:1
+                                           ;@C_RAM INTEbits                  Allocated to registers ;size:1
+                                           ;@C_RAM INTFbits                  Allocated to registers ;size:1
+                                           ;@C_RAM T0CRbits                  Allocated to registers ;size:1
+                                           ;@C_RAM DDR1bits                  Allocated to registers ;size:1
+                                           ;@C_RAM TMRCRbits                 Allocated to registers ;size:1
+                                           ;@C_RAM T1CRbits                  Allocated to registers ;size:1
+                                           ;@C_RAM T1CNTbits                 Allocated to registers ;size:1
+                                           ;@C_RAM T1LOADbits                Allocated to registers ;size:1
+                                           ;@C_RAM T1DATAbits                Allocated to registers ;size:1
+                                           ;@C_RAM abuf                      Allocated to registers ;size:1
+                                           ;@C_RAM statusbuf                 Allocated to registers ;size:1
+                                           ;@C_RAM flag1                     Allocated to registers ;size:1
+                                           ;@C_RAM INDF                      Allocated to registers ;size:1
+                                           ;@C_RAM T0CNT                     Allocated to registers ;size:1
+                                           ;@C_RAM PCL                       Allocated to registers ;size:1
+                                           ;@C_RAM STATUS                    Allocated to registers ;size:1
+                                           ;@C_RAM FSR                       Allocated to registers ;size:1
+                                           ;@C_RAM P1                        Allocated to registers ;size:1
+                                           ;@C_RAM MCR                       Allocated to registers ;size:1
+                                           ;@C_RAM P1KBCR                    Allocated to registers ;size:1
+                                           ;@C_RAM PCLATH                    Allocated to registers ;size:1
+                                           ;@C_RAM PDCON                     Allocated to registers ;size:1
+                                           ;@C_RAM ODCON                     Allocated to registers ;size:1
+                                           ;@C_RAM PUCON                     Allocated to registers ;size:1
+                                           ;@C_RAM INTE                      Allocated to registers ;size:1
+                                           ;@C_RAM INTF                      Allocated to registers ;size:1
+                                           ;@C_RAM T0CR                      Allocated to registers ;size:1
+                                           ;@C_RAM DDR1                      Allocated to registers ;size:1
+                                           ;@C_RAM TMRCR                     Allocated to registers ;size:1
+                                           ;@C_RAM T1CR                      Allocated to registers ;size:1
+                                           ;@C_RAM T1CNT                     Allocated to registers ;size:1
+                                           ;@C_RAM T1LOAD                    Allocated to registers ;size:1
+                                           ;@C_RAM T1DATA                    Allocated to registers ;size:1
+                                           ;@end Allocation info for local variables in function 'C_RAM';
+                                           ;@Allocation info for local variables in function 'IO_Init'
+                                           ;@end Allocation info for local variables in function 'IO_Init';
+                                           ;@Allocation info for local variables in function 'LVD_Init'
+                                           ;@end Allocation info for local variables in function 'LVD_Init';
+                                           ;@Allocation info for local variables in function 'Sys_Init'
+                                           ;@end Allocation info for local variables in function 'Sys_Init';
+                                           ;@Allocation info for local variables in function 'delay_ms'
+                                           ;@delay_ms xms                       Allocated to registers ;size:4
+                                           ;@delay_ms i                         Allocated to registers r0x100A r0x100B ;size:2
+                                           ;@end Allocation info for local variables in function 'delay_ms';
+                                           ;@Allocation info for local variables in function 'user_init'
+                                           ;@end Allocation info for local variables in function 'user_init';
+                                           ;@Allocation info for local variables in function 'pen_pwr_on'
+                                           ;@end Allocation info for local variables in function 'pen_pwr_on';
+                                           ;@Allocation info for local variables in function 'pen_pwr_off'
+                                           ;@end Allocation info for local variables in function 'pen_pwr_off';
+                                           ;@Allocation info for local variables in function 'led_all_off'
+                                           ;@end Allocation info for local variables in function 'led_all_off';
+                                           ;@Allocation info for local variables in function 'led1_on'
+                                           ;@end Allocation info for local variables in function 'led1_on';
+                                           ;@Allocation info for local variables in function 'led2_on'
+                                           ;@end Allocation info for local variables in function 'led2_on';
+                                           ;@Allocation info for local variables in function 'led3_on'
+                                           ;@end Allocation info for local variables in function 'led3_on';
+                                           ;@Allocation info for local variables in function 'led4_on'
+                                           ;@end Allocation info for local variables in function 'led4_on';
+                                           ;@Allocation info for local variables in function 'timer0_init'
+                                           ;@end Allocation info for local variables in function 'timer0_init';
+                                           ;@Allocation info for local variables in function 'timer1_init'
+                                           ;@end Allocation info for local variables in function 'timer1_init';
+                                           ;@Allocation info for local variables in function 'key_scan'
+                                           ;@key_scan last_key_id               Allocated to registers ;size:1
+                                           ;@key_scan press_cnt                 Allocated to registers ;size:1
+                                           ;@key_scan filter_cnt                Allocated to registers ;size:1
+                                           ;@key_scan filter_key_id             Allocated to registers ;size:1
+                                           ;@key_scan cur_key_id                Allocated to registers ;size:1
+                                           ;@key_scan flag_is_key_mode_hold     Allocated to registers ;size:1
+                                           ;@end Allocation info for local variables in function 'key_scan';
+                                           ;@Allocation info for local variables in function 'key_scan'
+                                           ;@key_scan last_key_id               Allocated to registers ;size:1
+                                           ;@key_scan press_cnt                 Allocated to registers ;size:1
+                                           ;@key_scan filter_cnt                Allocated to registers ;size:1
+                                           ;@key_scan filter_key_id             Allocated to registers ;size:1
+                                           ;@key_scan cur_key_id                Allocated to registers ;size:1
+                                           ;@key_scan flag_is_key_mode_hold     Allocated to registers ;size:1
+                                           ;@end Allocation info for local variables in function 'key_scan';
+                                           ;@Allocation info for local variables in function 'main'
+                                           ;@end Allocation info for local variables in function 'main';
+                                           ;@Allocation info for local variables in function 'int_isr'
+                                           ;@end Allocation info for local variables in function 'int_isr';
+                                           
+                                           ;--------------------------------------------------------
+                                           ; overlayable items in internal ram 
+                                           ;--------------------------------------------------------
+                                           ;	udata_ovr
+                                           ;--------------------------------------------------------
+                                           ; reset vector 
+                                           ;--------------------------------------------------------
+                                           STARTUP	code 0x0000
+                                           	goto	_main
+                                           ;--------------------------------------------------------
+                                           ; interrupt and initialization code
+                                           ;--------------------------------------------------------
+                                           c_interrupt	code	0x8
+                                           __sdcc_interrupt
+                                           ;***
+                                           ;  pBlock Stats: dbName = I
+                                           ;***
+                                           ;entry:  _int_isr	;Function start
+                                           ; 0 exit points
+                                           ;; Starting pCode block
+                                           _int_isr	;Function start
+                                           ; 0 exit points
+                                           ;	.line	380; "MC30P6280.c"	__endasm;
+                                           	;
+                                           	movra	_abuf;
+                                           	swapar	_STATUS;
+                                           	movra	_statusbuf;
+                                           	
+                                           ;	.line	386; "MC30P6280.c"	__endasm;
+                                           	;
+                                           	swapar	_statusbuf;
+                                           	movra	_STATUS;
+                                           	swapr	_abuf;
+                                           	swapar	_abuf;
+                                           	
+                                           END_OF_INTERRUPT
+                                           ;	.line	387; "MC30P6280.c"	}
+                                           	RETIE	
+                                           
+                                           ;--------------------------------------------------------
+                                           ; code
+                                           ;--------------------------------------------------------
+                                           code_MC30P6280	code
+                                           ;***
+                                           ;  pBlock Stats: dbName = M
+                                           ;***
+                                           ;entry:  _main	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;functions called:
+                                           ;   _Sys_Init
+                                           ;   _user_init
+                                           ;   _pen_pwr_on
+                                           ;   _led_all_off
+                                           ;   _led_all_off
+                                           ;   _led1_on
+                                           ;   _delay_ms
+                                           ;   _led_all_off
+                                           ;   _led2_on
+                                           ;   _delay_ms
+                                           ;   _led_all_off
+                                           ;   _led3_on
+                                           ;   _delay_ms
+                                           ;   _led_all_off
+                                           ;   _led4_on
+                                           ;   _delay_ms
+                                           ;   _Sys_Init
+                                           ;   _user_init
+                                           ;   _pen_pwr_on
+                                           ;   _led_all_off
+                                           ;   _led_all_off
+                                           ;   _led1_on
+                                           ;   _delay_ms
+                                           ;   _led_all_off
+                                           ;   _led2_on
+                                           ;   _delay_ms
+                                           ;   _led_all_off
+                                           ;   _led3_on
+                                           ;   _delay_ms
+                                           ;   _led_all_off
+                                           ;   _led4_on
+                                           ;   _delay_ms
+                                           ;3 compiler assigned registers:
+                                           ;   STK02
+                                           ;   STK01
+                                           ;   STK00
+                                           ;; Starting pCode block
+                                           _main	;Function start
+                                           ; 2 exit points
+                                           ;	.line	325; "MC30P6280.c"	Sys_Init();
+                                           	CALL	_Sys_Init
+                                           ;	.line	326; "MC30P6280.c"	user_init();
+                                           	CALL	_user_init
+                                           ;	.line	328; "MC30P6280.c"	pen_pwr_on();
+                                           	CALL	_pen_pwr_on
+                                           ;	.line	329; "MC30P6280.c"	led_all_off();
+                                           	CALL	_led_all_off
+                                           _00233_DS_
+                                           ;	.line	342; "MC30P6280.c"	led_all_off();
+                                           	CALL	_led_all_off
+                                           ;	.line	343; "MC30P6280.c"	led1_on();
+                                           	CALL	_led1_on
+                                           ;	.line	344; "MC30P6280.c"	delay_ms(500);
+                                           	MOVAI	0xf4
+                                           	MOVRA	STK02
+                                           	MOVAI	0x01
+                                           	MOVRA	STK01
+                                           	MOVAI	0x00
+                                           	MOVRA	STK00
+                                           	MOVAI	0x00
+                                           	CALL	_delay_ms
+                                           ;	.line	348; "MC30P6280.c"	led_all_off();
+                                           	CALL	_led_all_off
+                                           ;	.line	349; "MC30P6280.c"	led2_on();
+                                           	CALL	_led2_on
+                                           ;	.line	350; "MC30P6280.c"	delay_ms(500);
+                                           	MOVAI	0xf4
+                                           	MOVRA	STK02
+                                           	MOVAI	0x01
+                                           	MOVRA	STK01
+                                           	MOVAI	0x00
+                                           	MOVRA	STK00
+                                           	MOVAI	0x00
+                                           	CALL	_delay_ms
+                                           ;	.line	354; "MC30P6280.c"	led_all_off();
+                                           	CALL	_led_all_off
+                                           ;	.line	355; "MC30P6280.c"	led3_on();
+                                           	CALL	_led3_on
+                                           ;	.line	356; "MC30P6280.c"	delay_ms(500);
+                                           	MOVAI	0xf4
+                                           	MOVRA	STK02
+                                           	MOVAI	0x01
+                                           	MOVRA	STK01
+                                           	MOVAI	0x00
+                                           	MOVRA	STK00
+                                           	MOVAI	0x00
+                                           	CALL	_delay_ms
+                                           ;	.line	360; "MC30P6280.c"	led_all_off();
+                                           	CALL	_led_all_off
+                                           ;	.line	361; "MC30P6280.c"	led4_on();
+                                           	CALL	_led4_on
+                                           ;	.line	362; "MC30P6280.c"	delay_ms(500);
+                                           	MOVAI	0xf4
+                                           	MOVRA	STK02
+                                           	MOVAI	0x01
+                                           	MOVRA	STK01
+                                           	MOVAI	0x00
+                                           	MOVRA	STK00
+                                           	MOVAI	0x00
+                                           	CALL	_delay_ms
+                                           	GOTO	_00233_DS_
+                                           ;	.line	366; "MC30P6280.c"	}
+                                           	RETURN	
+                                           ; exit point of _main
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _key_scan	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;1 compiler assigned register :
+                                           ;   r0x100E
+                                           ;; Starting pCode block
+                                           _key_scan	;Function start
+                                           ; 2 exit points
+                                           ;	.line	202; "MC30P6280.c"	PUCON &= ~(0x01 << 0); // 上拉电阻 20K
+                                           	BCLR	_PUCON,0
+                                           ;	.line	203; "MC30P6280.c"	DDR1 |= 0x01 << 0;	   // 输入模式
+                                           	BSET	_DDR1,0
+                                           ;	.line	215; "MC30P6280.c"	volatile u8 cur_key_id = KEY_ID_NONE;
+                                           	CLRR	_key_scan_cur_key_id_65537_42
+                                           ;	.line	219; "MC30P6280.c"	if (1 == KEY_SCAN_PIN)
+                                           	CLRR	r0x100E
+                                           	JBCLR	_P1bits,0
+                                           	INCR	r0x100E
+                                           	MOVAR	r0x100E
+                                           	XORAI	0x01
+                                           	JBSET	STATUS,2
+                                           	GOTO	_00173_DS_
+                                           ;	.line	221; "MC30P6280.c"	cur_key_id = KEY_ID_VAILD;
+                                           	MOVAI	0x01
+                                           	MOVRA	_key_scan_cur_key_id_65537_42
+                                           	GOTO	_00174_DS_
+                                           _00173_DS_
+                                           ;	.line	225; "MC30P6280.c"	cur_key_id = KEY_ID_NONE;
+                                           	CLRR	_key_scan_cur_key_id_65537_42
+                                           _00174_DS_
+                                           ;	.line	228; "MC30P6280.c"	if (cur_key_id != filter_key_id)
+                                           	MOVAR	_key_scan_filter_key_id_65537_42
+                                           	XORAR	_key_scan_cur_key_id_65537_42
+                                           	JBSET	STATUS,2
+                                           	GOTO	_00225_DS_
+                                           	GOTO	_00176_DS_
+                                           _00225_DS_
+                                           ;	.line	231; "MC30P6280.c"	filter_cnt = 0;
+                                           	CLRR	_key_scan_filter_cnt_65537_42
+                                           ;	.line	232; "MC30P6280.c"	filter_key_id = cur_key_id;
+                                           	MOVAR	_key_scan_cur_key_id_65537_42
+                                           	MOVRA	_key_scan_filter_key_id_65537_42
+                                           ;	.line	233; "MC30P6280.c"	return;
+                                           	GOTO	_00191_DS_
+                                           ;;unsigned compare: left < lit(0x3=3), size=1
+                                           _00176_DS_
+                                           ;	.line	236; "MC30P6280.c"	if (filter_cnt < KEY_FILTER_TIMES)
+                                           	MOVAI	0x03
+                                           	RSUBAR	_key_scan_filter_cnt_65537_42
+                                           	JBCLR	STATUS,0
+                                           	GOTO	_00178_DS_
+                                           ;;genSkipc:3291: created from rifx:013B5EFC
+                                           ;	.line	240; "MC30P6280.c"	filter_cnt++;
+                                           	INCR	_key_scan_filter_cnt_65537_42
+                                           ;	.line	241; "MC30P6280.c"	return;
+                                           	GOTO	_00191_DS_
+                                           _00178_DS_
+                                           ;	.line	246; "MC30P6280.c"	if (last_key_id != cur_key_id)
+                                           	MOVAR	_key_scan_cur_key_id_65537_42
+                                           	XORAR	_key_scan_last_key_id_65537_42
+                                           	JBSET	STATUS,2
+                                           	GOTO	_00227_DS_
+                                           	GOTO	_00189_DS_
+                                           _00227_DS_
+                                           ;	.line	249; "MC30P6280.c"	if (last_key_id == KEY_ID_NONE)
+                                           	MOVAI	0x00
+                                           	ORAR	_key_scan_last_key_id_65537_42
+                                           	JBSET	STATUS,2
+                                           	GOTO	_00182_DS_
+                                           ;	.line	252; "MC30P6280.c"	press_cnt = 0;
+                                           	CLRR	_key_scan_press_cnt_65537_42
+                                           	GOTO	_00190_DS_
+                                           _00182_DS_
+                                           ;	.line	254; "MC30P6280.c"	else if (cur_key_id == KEY_ID_NONE)
+                                           	MOVAI	0x00
+                                           	ORAR	_key_scan_cur_key_id_65537_42
+                                           	JBSET	STATUS,2
+                                           	GOTO	_00190_DS_
+                                           ;	.line	257; "MC30P6280.c"	if (press_cnt < 75)
+                                           	GOTO	_00190_DS_
+                                           _00189_DS_
+                                           ;	.line	278; "MC30P6280.c"	else if (cur_key_id != KEY_ID_NONE)
+                                           	MOVAI	0x00
+                                           	ORAR	_key_scan_cur_key_id_65537_42
+                                           	JBCLR	STATUS,2
+                                           	GOTO	_00190_DS_
+                                           ;;unsigned compare: left < lit(0xFF=255), size=1
+                                           ;	.line	281; "MC30P6280.c"	if (press_cnt < 255)
+                                           	MOVAI	0xff
+                                           	RSUBAR	_key_scan_press_cnt_65537_42
+                                           	JBCLR	STATUS,0
+                                           	GOTO	_00190_DS_
+                                           ;;genSkipc:3291: created from rifx:013B5EFC
+                                           ;	.line	282; "MC30P6280.c"	press_cnt++;
+                                           	INCR	_key_scan_press_cnt_65537_42
+                                           _00190_DS_
+                                           ;	.line	319; "MC30P6280.c"	last_key_id = cur_key_id;
+                                           	MOVAR	_key_scan_cur_key_id_65537_42
+                                           	MOVRA	_key_scan_last_key_id_65537_42
+                                           _00191_DS_
+                                           ;	.line	321; "MC30P6280.c"	}
+                                           	RETURN	
+                                           ; exit point of _key_scan
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _timer1_init	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;; Starting pCode block
+                                           _timer1_init	;Function start
+                                           ; 2 exit points
+                                           ;	.line	196; "MC30P6280.c"	}
+                                           	RETURN	
+                                           ; exit point of _timer1_init
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _timer0_init	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;; Starting pCode block
+                                           _timer0_init	;Function start
+                                           ; 2 exit points
+                                           ;	.line	191; "MC30P6280.c"	}
+                                           	RETURN	
+                                           ; exit point of _timer0_init
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _led4_on	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;; Starting pCode block
+                                           _led4_on	;Function start
+                                           ; 2 exit points
+                                           ;	.line	181; "MC30P6280.c"	P1 &= ~(0x01 << 0);	  // P10 输出低电平
+                                           	BCLR	_P1,0
+                                           ;	.line	182; "MC30P6280.c"	DDR1 &= ~(0x01 << 0); // P10 输出模式
+                                           	BCLR	_DDR1,0
+                                           ;	.line	184; "MC30P6280.c"	P1 |= (0x01 << 2);	  // P12 输出高电平
+                                           	BSET	_P1,2
+                                           ;	.line	185; "MC30P6280.c"	DDR1 &= ~(0x01 << 2); // P12 输出模式
+                                           	BCLR	_DDR1,2
+                                           ;	.line	186; "MC30P6280.c"	}
+                                           	RETURN	
+                                           ; exit point of _led4_on
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _led3_on	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;; Starting pCode block
+                                           _led3_on	;Function start
+                                           ; 2 exit points
+                                           ;	.line	169; "MC30P6280.c"	P1 &= ~(0x01 << 2);	  // P12 输出低电平
+                                           	BCLR	_P1,2
+                                           ;	.line	170; "MC30P6280.c"	DDR1 &= ~(0x01 << 2); // P12 输出模式
+                                           	BCLR	_DDR1,2
+                                           ;	.line	172; "MC30P6280.c"	P1 |= (0x01 << 0);	  // P10 输出高电平
+                                           	BSET	_P1,0
+                                           ;	.line	173; "MC30P6280.c"	DDR1 &= ~(0x01 << 0); // P10 输出模式
+                                           	BCLR	_DDR1,0
+                                           ;	.line	174; "MC30P6280.c"	}
+                                           	RETURN	
+                                           ; exit point of _led3_on
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _led2_on	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;; Starting pCode block
+                                           _led2_on	;Function start
+                                           ; 2 exit points
+                                           ;	.line	156; "MC30P6280.c"	P1 &= ~(0x01 << 1);	  // P11 输出低电平
+                                           	BCLR	_P1,1
+                                           ;	.line	157; "MC30P6280.c"	DDR1 &= ~(0x01 << 1); // P11 输出模式
+                                           	BCLR	_DDR1,1
+                                           ;	.line	160; "MC30P6280.c"	P1 |= (0x01 << 0);	  // P10 输出高电平
+                                           	BSET	_P1,0
+                                           ;	.line	161; "MC30P6280.c"	DDR1 &= ~(0x01 << 0); // P10 输出模式
+                                           	BCLR	_DDR1,0
+                                           ;	.line	162; "MC30P6280.c"	}
+                                           	RETURN	
+                                           ; exit point of _led2_on
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _led1_on	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;; Starting pCode block
+                                           _led1_on	;Function start
+                                           ; 2 exit points
+                                           ;	.line	141; "MC30P6280.c"	P1 &= ~(0x01 << 0);
+                                           	BCLR	_P1,0
+                                           ;	.line	142; "MC30P6280.c"	DDR1 &= ~(0x01 << 0); // 输出模式
+                                           	BCLR	_DDR1,0
+                                           ;	.line	146; "MC30P6280.c"	P1 |= (0x01 << 1);	  // P11 输出高电平
+                                           	BSET	_P1,1
+                                           ;	.line	147; "MC30P6280.c"	DDR1 &= ~(0x01 << 1); // P11 输出模式
+                                           	BCLR	_DDR1,1
+                                           ;	.line	148; "MC30P6280.c"	}
+                                           	RETURN	
+                                           ; exit point of _led1_on
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _led_all_off	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;; Starting pCode block
+                                           _led_all_off	;Function start
+                                           ; 2 exit points
+                                           ;	.line	127; "MC30P6280.c"	PUCON |= (0x01 << 0); // 关闭上拉
+                                           	BSET	_PUCON,0
+                                           ;	.line	132; "MC30P6280.c"	(0x01 << 2);  // P12
+                                           	MOVAI	0x07
+                                           	ORRA	_DDR1
+                                           ;	.line	133; "MC30P6280.c"	}
+                                           	RETURN	
+                                           ; exit point of _led_all_off
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _pen_pwr_off	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;; Starting pCode block
+                                           _pen_pwr_off	;Function start
+                                           ; 2 exit points
+                                           ;	.line	118; "MC30P6280.c"	PUCON &= ~(0x01 << 4); // 上拉电阻 20K
+                                           	BCLR	_PUCON,4
+                                           ;	.line	121; "MC30P6280.c"	}
+                                           	RETURN	
+                                           ; exit point of _pen_pwr_off
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _pen_pwr_on	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;; Starting pCode block
+                                           _pen_pwr_on	;Function start
+                                           ; 2 exit points
+                                           ;	.line	111; "MC30P6280.c"	PDCON &= ~(0x01 << 4); // 下拉电阻 20K
+                                           	BCLR	_PDCON,4
+                                           ;	.line	114; "MC30P6280.c"	}
+                                           	RETURN	
+                                           ; exit point of _pen_pwr_on
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _user_init	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;functions called:
+                                           ;   _delay_ms
+                                           ;   _delay_ms
+                                           ;3 compiler assigned registers:
+                                           ;   STK02
+                                           ;   STK01
+                                           ;   STK00
+                                           ;; Starting pCode block
+                                           _user_init	;Function start
+                                           ; 2 exit points
+                                           ;	.line	97; "MC30P6280.c"	PUCON &= ~(0x01 << 0); // 上拉电阻 20K
+                                           	BCLR	_PUCON,0
+                                           ;	.line	98; "MC30P6280.c"	DDR1 |= 0x01 << 0;	   // 输入模式
+                                           	BSET	_DDR1,0
+                                           ;	.line	101; "MC30P6280.c"	DDR1 |= 0x01 << 4; // P14 输入模式
+                                           	BSET	_DDR1,4
+                                           ;	.line	104; "MC30P6280.c"	DDR1 |= 0x01 << 5; // 输入模式
+                                           	BSET	_DDR1,5
+                                           ;	.line	106; "MC30P6280.c"	delay_ms(1); // 等待系统稳定
+                                           	MOVAI	0x01
+                                           	MOVRA	STK02
+                                           	MOVAI	0x00
+                                           	MOVRA	STK01
+                                           	MOVAI	0x00
+                                           	MOVRA	STK00
+                                           	MOVAI	0x00
+                                           	CALL	_delay_ms
+                                           ;	.line	107; "MC30P6280.c"	}
+                                           	RETURN	
+                                           ; exit point of _user_init
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _delay_ms	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;11 compiler assigned registers:
+                                           ;   r0x1006
+                                           ;   STK00
+                                           ;   r0x1007
+                                           ;   STK01
+                                           ;   r0x1008
+                                           ;   STK02
+                                           ;   r0x1009
+                                           ;   r0x100A
+                                           ;   r0x100B
+                                           ;   r0x100C
+                                           ;   r0x100D
+                                           ;; Starting pCode block
+                                           _delay_ms	;Function start
+                                           ; 2 exit points
+                                           ;	.line	79; "MC30P6280.c"	void delay_ms(u32 xms)
+                                           	MOVRA	r0x1006
+                                           	MOVAR	STK00
+                                           	MOVRA	r0x1007
+                                           	MOVAR	STK01
+                                           	MOVRA	r0x1008
+                                           	MOVAR	STK02
+                                           	MOVRA	r0x1009
+                                           _00124_DS_
+                                           ;	.line	81; "MC30P6280.c"	while (xms)
+                                           	MOVAR	r0x1009
+                                           	ORAR	r0x1008
+                                           	ORAR	r0x1007
+                                           	ORAR	r0x1006
+                                           	JBCLR	STATUS,2
+                                           	GOTO	_00127_DS_
+                                           ;	.line	84; "MC30P6280.c"	while (i--)
+                                           	MOVAI	0x13
+                                           	MOVRA	r0x100A
+                                           	MOVAI	0x02
+                                           	MOVRA	r0x100B
+                                           _00121_DS_
+                                           	MOVAR	r0x100A
+                                           	MOVRA	r0x100C
+                                           	MOVAR	r0x100B
+                                           	MOVRA	r0x100D
+                                           	MOVAI	0xff
+                                           	ADDRA	r0x100A
+                                           	JBSET	STATUS,0
+                                           	DECR	r0x100B
+                                           	MOVAR	r0x100C
+                                           	ORAR	r0x100D
+                                           	JBCLR	STATUS,2
+                                           	GOTO	_00123_DS_
+                                           ;	.line	86; "MC30P6280.c"	Nop();
+                                           	nop	
+                                           	GOTO	_00121_DS_
+                                           _00123_DS_
+                                           ;	.line	88; "MC30P6280.c"	xms--;
+                                           	MOVAI	0xff
+                                           	ADDRA	r0x1009
+                                           	MOVAI	0xff
+                                           	JBSET	STATUS,0
+                                           	ADDRA	r0x1008
+                                           	MOVAI	0xff
+                                           	JBSET	STATUS,0
+                                           	ADDRA	r0x1007
+                                           	MOVAI	0xff
+                                           	JBSET	STATUS,0
+                                           	ADDRA	r0x1006
+                                           	GOTO	_00124_DS_
+                                           _00127_DS_
+                                           ;	.line	90; "MC30P6280.c"	}
+                                           	RETURN	
+                                           ; exit point of _delay_ms
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _Sys_Init	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;functions called:
+                                           ;   _C_RAM
+                                           ;   _IO_Init
+                                           ;   _LVD_Init
+                                           ;   _C_RAM
+                                           ;   _IO_Init
+                                           ;   _LVD_Init
+                                           ;; Starting pCode block
+                                           _Sys_Init	;Function start
+                                           ; 2 exit points
+                                           ;	.line	70; "MC30P6280.c"	GIE = 0;
+                                           	BCLR	_INTEbits,7
+                                           ;	.line	71; "MC30P6280.c"	C_RAM();
+                                           	CALL	_C_RAM
+                                           ;	.line	72; "MC30P6280.c"	IO_Init();
+                                           	CALL	_IO_Init
+                                           ;	.line	73; "MC30P6280.c"	LVD_Init();
+                                           	CALL	_LVD_Init
+                                           ;	.line	74; "MC30P6280.c"	GIE = 1;
+                                           	BSET	_INTEbits,7
+                                           ;	.line	75; "MC30P6280.c"	}
+                                           	RETURN	
+                                           ; exit point of _Sys_Init
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _LVD_Init	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;; Starting pCode block
+                                           _LVD_Init	;Function start
+                                           ; 2 exit points
+                                           ;	.line	58; "MC30P6280.c"	MCR &= ~(DEF_SET_BIT1 | DEF_SET_BIT2 | DEF_SET_BIT3 | DEF_SET_BIT4);
+                                           	MOVAI	0xe1
+                                           	ANDRA	_MCR
+                                           ;	.line	59; "MC30P6280.c"	MCR |= (DEF_SET_BIT2 | DEF_SET_BIT3 | DEF_SET_BIT4); // 4V
+                                           	MOVAI	0x1c
+                                           	ORRA	_MCR
+                                           ;	.line	60; "MC30P6280.c"	LVDEN = 1;											 // 使能LVD
+                                           	BSET	_MCRbits,0
+                                           ;	.line	61; "MC30P6280.c"	}
+                                           	RETURN	
+                                           ; exit point of _LVD_Init
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _IO_Init	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;; Starting pCode block
+                                           _IO_Init	;Function start
+                                           ; 2 exit points
+                                           ;	.line	44; "MC30P6280.c"	P1 = 0x00;	  // 1:input 0:output
+                                           	CLRR	_P1
+                                           ;	.line	45; "MC30P6280.c"	DDR1 = 0x00;  // 1:input 0:output
+                                           	CLRR	_DDR1
+                                           ;	.line	46; "MC30P6280.c"	PUCON = 0xff; // 0:Effective 1:invalid
+                                           	MOVAI	0xff
+                                           	MOVRA	_PUCON
+                                           ;	.line	47; "MC30P6280.c"	PDCON = 0xff; // 0:Effective 1:invalid
+                                           	MOVAI	0xff
+                                           	MOVRA	_PDCON
+                                           ;	.line	48; "MC30P6280.c"	ODCON = 0x00; // 0:推挽输出  1:开漏输出
+                                           	CLRR	_ODCON
+                                           ;	.line	49; "MC30P6280.c"	}
+                                           	RETURN	
+                                           ; exit point of _IO_Init
+                                           
+                                           ;***
+                                           ;  pBlock Stats: dbName = C
+                                           ;***
+                                           ;entry:  _C_RAM	;Function start
+                                           ; 2 exit points
+                                           ;has an exit
+                                           ;; Starting pCode block
+                                           _C_RAM	;Function start
+                                           ; 2 exit points
+                                           ;	.line	33; "MC30P6280.c"	__endasm;
+                                           	;
+                                           	movai	0x3F;
+                                           	movra	FSR;
+                                           	movai	47;
+                                           	movra	0x3F;
+                                           	decr	FSR;
+                                           	clrr	INDF;
+                                           	djzr	0x3F;
+                                           	goto	$ - 3;
+                                           	clrr	0x3F;
+                                           	
+                                           ;	.line	34; "MC30P6280.c"	}
+                                           	RETURN	
+                                           ; exit point of _C_RAM
+                                           
+                                           
+                                           ;	code size estimation:
+                                           ;	  211+    0 =   211 instructions (  422 byte)
+                                           
+                                           	end
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+0000 : XX-------------- XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0040 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0080 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+00C0 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0100 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0140 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0180 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+01C0 : XXXXXXXXXXXXXXXX XXXXXXXX-------- ---------------- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:   229
+
