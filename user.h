@@ -45,15 +45,61 @@
 #define FAIL 1
 #define PASS 0
 
+#define USER_DEBUG_ENABLE 1
+
 // 按键检测引脚
 #define KEY_SCAN_PIN P10D
 // // 笔头供电控制引脚（目前不用推挽输出来驱动，还需要结合实际的电路板测试一下）
 // #define PEN_POWER_PIN P14D
 
+// 定义LVD各个电压检测阈值配置
+#define MCR_LVD_CFG_ALL ((u8)(0x01 << 4 | 0x01 << 3 | 0x01 << 2 | 0x01 << 1))
+#define MCR_LVD_CFG_4V0 ((u8)(0x01 << 4 | 0x01 << 3 | 0x01 << 2))
+#define MCR_LVD_CFG_3V6 ((u8)(0x01 << 4 | 0x01 << 3 | 0x01 << 1))
+#define MCR_LVD_CFG_3V3 ((u8)(0x01 << 4 | 0x01 << 3))
+#define MCR_LVD_CFG_3V2 ((u8)(0x01 << 4 | 0x01 << 2 | 0x01 << 1))
+#define MCR_LVD_CFG_3V0 ((u8)(0x01 << 4 | 0x01 << 2))
+#define MCR_LVD_CFG_2V9 ((u8)(0x01 << 4 | 0x01 << 1))
+// 定义在lvd扫描时,需要切换到的各个配置状态:
+enum
+{
+	LVD_LEV_NONE = 0,
 
+	LVD_LEV_2V9_SWITCHING, // 正在切换中(手册说,切换LVD档位后,至少等200us)
+	LVD_LEV_2V9,		   // 切换完成
+
+	LVD_LEV_3V0_SWITCHING,
+	LVD_LEV_3V0,
+
+	LVD_LEV_3V2_SWITCHING,
+	LVD_LEV_3V2,
+
+	LVD_LEV_3V3_SWITCHING,
+	LVD_LEV_3V3,
+
+	LVD_LEV_3V6_SWITCHING,
+	LVD_LEV_3V6,
+
+	LVD_LEV_4V0_SWITCHING,
+	LVD_LEV_4V0,
+};
+
+// 定义电池电量的档位:
+enum
+{
+	BAT_LEV_4V0 = 0, // 默认电池满电
+	BAT_LEV_3V6,	 // 三格电量
+	BAT_LEV_3V3,	 // 二格电量
+	BAT_LEV_3V2,	 // 一格电量
+	BAT_LEV_3V0,	 // 低电量,让指示灯闪烁
+	BAT_LEV_2V9,	 // 关机电压
+};
+typedef u8 bat_lev_t;
 
 // 如果只消抖2次，会过滤不掉抖动
 #define KEY_FILTER_TIMES (3) // 按键消抖次数 (消抖时间 == 消抖次数 * 按键扫描时间)
+// 按键松开后，等待连击的延时，单位：10 ms
+#define KEY_CLICK_DELAY_TIME ((u16)300 / 10)
 // 定义按键键值
 enum
 {
@@ -61,15 +107,20 @@ enum
 	KEY_ID_VAILD,
 };
 // 定义按键事件
+// enum
+// {
+// 	KEY_EVENT_NONE = 0x00,
+// 	KEY_EVENT_CLICK, // 单击
+// 	KEY_EVENT_HOLD, //
+// 	KEY_EVENT_LOOSE, // 长按后松开
+// };
+// 定义设备的状态
 enum
 {
-	KEY_EVENT_NONE = 0x00,
-	KEY_EVENT_CLICK, // 单击
-	KEY_EVENT_HOLD, // 
-	KEY_EVENT_LOOSE, // 长按后松开
+	DEV_STA_IDLE = 0,
+	DEV_STA_WORKING,
 };
-
-
+typedef u8 dev_sta_t;
 
 //===============Field Protection Variables===============
 u8 abuf;
@@ -80,10 +131,23 @@ u8 statusbuf;
 //===============Global Variable===============
 
 //===============Global Function===============
-void CLR_RAM(void);
+void C_RAM(void);
 void IO_Init(void);
 void LVD_Init(void);
 void Sys_Init(void);
+
+void user_init(void);
+void timer0_init(void);
+
+void led_all_off(void);
+void led1_on(void);
+void led2_on(void);
+void led3_on(void);
+void led4_on(void);
+void led_refresh(void);
+
+void key_scan(void);
+void lvd_scan(void);
 
 //===============Define  Flag===============
 typedef union
@@ -101,9 +165,20 @@ typedef union
 		u8 bit7 : 1;
 	} bits;
 } bit_flag_t;
-volatile bit_flag_t flag1;
-
+// example:
 // #define  	FLAG_TIMER0_500ms  	flag1.bits.bit0	   	 // 标志位
+volatile bit_flag_t flag1;
+// // 是否更新电池状态（目前每150s才更新一次电池状态）
+// #define flag_is_update_bat_lev flag1.bits.bit0
+// // 是否允许电池状态更新
+// #define flag_update_bat_enable flag1.bits.bit1
+
+// 是否正在充电
+#define flag_is_in_charging flag1.bits.bit0 
+// 是否刚进入充电
+#define flag_is_charge_begin flag1.bits.bit1
+
+
 
 #endif
 
