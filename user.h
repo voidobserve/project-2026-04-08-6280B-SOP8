@@ -45,12 +45,16 @@
 #define FAIL 1
 #define PASS 0
 
-#define USER_DEBUG_ENABLE 1
+#define USER_DEBUG_ENABLE 0
 
 // 按键检测引脚
 #define KEY_SCAN_PIN P10D
 // // 笔头供电控制引脚（目前不用推挽输出来驱动，还需要结合实际的电路板测试一下）
 // #define PEN_POWER_PIN P14D
+// 振动传感器检测脚
+#define VIBRATION_SENSOR_PIN P15D
+// 充电检测脚
+#define CHARGE_PIN P13D
 
 // 定义LVD各个电压检测阈值配置
 #define MCR_LVD_CFG_ALL ((u8)(0x01 << 4 | 0x01 << 3 | 0x01 << 2 | 0x01 << 1))
@@ -123,8 +127,8 @@ enum
 typedef u8 dev_sta_t;
 
 //===============Field Protection Variables===============
-u8 abuf;
-u8 statusbuf;
+extern u8 abuf;
+extern u8 statusbuf;
 
 //===============IO Define===============
 
@@ -137,13 +141,15 @@ void LVD_Init(void);
 void Sys_Init(void);
 
 void user_init(void);
-void timer0_init(void);
+
+
 
 void led_all_off(void);
 void led1_on(void);
 void led2_on(void);
 void led3_on(void);
 void led4_on(void);
+void led_status_handle(void);
 void led_refresh(void);
 
 void key_scan(void);
@@ -167,18 +173,29 @@ typedef union
 } bit_flag_t;
 // example:
 // #define  	FLAG_TIMER0_500ms  	flag1.bits.bit0	   	 // 标志位
-volatile bit_flag_t flag1;
-// // 是否更新电池状态（目前每150s才更新一次电池状态）
-// #define flag_is_update_bat_lev flag1.bits.bit0
-// // 是否允许电池状态更新
-// #define flag_update_bat_enable flag1.bits.bit1
+extern volatile bit_flag_t flag1; 
+extern volatile bit_flag_t flag2;
 
 // 是否正在充电
 #define flag_is_in_charging flag1.bits.bit0 
 // 是否刚进入充电
 #define flag_is_charge_begin flag1.bits.bit1
+// 控制标志位，是否点亮led：
+#define flag_led_1_on flag1.bits.bit2
+#define flag_led_2_on flag1.bits.bit3	
+#define flag_led_3_on flag1.bits.bit4
+#define flag_led_4_on flag1.bits.bit5
+// 设备是否运转（ USER_TO_DO 充电时，需要清空该标志位）
+#define flag_is_dev_working flag1.bits.bit6
 
+// 上一次从传感器检测脚读取到的电平
+#define last_vibration_sensor_lev flag1.bits.bit7
 
+// 是否进入低功耗模式
+// #define flag_is_low_power_enable
+
+#include "timer0.h"
+#include "timer1.h"
 
 #endif
 

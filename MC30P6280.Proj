@@ -4,6 +4,8 @@
     <Explorer fName="MC30P6280">
       <SouceCode fName="SourceCode">
         <asmFile fName="MC30P6280.c" fPath="\MC30P6280.c" />
+        <asmFile fName="timer0.c" fPath="\timer0.c" />
+        <asmFile fName="timer1.c" fPath="\timer1.c" />
       </SouceCode>
       <SouceCode fName="Output">
         <asmFile fName="MC30P6280.lst" fPath="\MC30P6280.lst" />
@@ -11,6 +13,8 @@
       </SouceCode>
       <SouceCode fName="Debug">
         <asmFile fName="user.h" fPath="\user.h" />
+        <asmFile fName="timer0.h" fPath="\timer0.h" />
+        <asmFile fName="timer1.h" fPath="\timer1.h" />
       </SouceCode>
     </Explorer>
   </ProWindows>
