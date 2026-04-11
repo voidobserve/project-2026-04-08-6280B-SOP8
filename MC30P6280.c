@@ -13,12 +13,9 @@ u8 abuf;
 u8 statusbuf;
 
 volatile bit_flag_t flag1;
-// volatile bit_flag_t flag2;
-
-// volatile dev_sta_t dev_sta;
 volatile bat_lev_t tmp_bat_lev = BAT_LEV_4V0; // 临时的电池电压挡位
 volatile bat_lev_t bat_lev = BAT_LEV_4V0;     // 稳定之后的、电池电压挡位
-volatile u32 pwr_off_cnt = 0;                 // 5min 自动关机的倒计时
+volatile u32 pwr_off_cnt = 0; // 5min 自动关机的倒计时 ( USER_TO_DO 可能可以改成u16来节省空间 )
 /*
     设备没有开机、并且没有在充电，累计计数，
     满足一定时间后进入低功耗
@@ -28,6 +25,15 @@ volatile u8 into_low_power_cnt = 0;
 volatile u8 charge_anim_phase = 0; // 控制充电动画
 
 volatile u8 i; // 循环计数值
+
+static volatile u8 last_key_id = KEY_ID_NONE;
+static volatile u8 press_cnt = 0;               // 按键按下的时间计数
+static volatile u8 filter_cnt = 0;              // 按键消抖，使用的变量
+static volatile u8 filter_key_id = KEY_ID_NONE; // 按键消抖时使用的变量
+// 按键短按松开之后，记录时间，用于判断这段时间内是否有再次按下
+static volatile u8 click_delay_cnt = 0;
+static volatile u8 click_cnt = 0; // 记录按键连击的次数
+volatile u8 cur_key_id = KEY_ID_NONE;
 
 /************************************************
 ;  *    @Function Name       : C_RAM
@@ -87,6 +93,8 @@ void IO_Init(void)
 void lvd_scan(void)
 {
     static u8 cur_lvd_lev = LVD_LEV_NONE;
+    LVDEN = 1;                 // 使能 LVD
+    tmp_bat_lev = BAT_LEV_4V0; // 每次检测，都假设当前电压挡位是4.0V
 
     switch (cur_lvd_lev) {
     case LVD_LEV_NONE: // LVD_LEV_NONE、LVD_LEV_2V9都用同一个语句块
@@ -117,9 +125,12 @@ void lvd_scan(void)
         break;
     case LVD_LEV_3V6_SWITCHING:
         cur_lvd_lev = LVD_LEV_3V6;
-        if (0 == LVDF) {
-            // 如果VDD不低于该挡位
-            tmp_bat_lev = BAT_LEV_3V6;
+        if (LVDF) {
+            // 如果VDD 低于 该挡位
+            if (tmp_bat_lev < LVD_LEV_3V6) {
+                // 数值小于 LVD_LEV_3V6 ，说明之前检测到的电压值大于 LVD_LEV_3V6
+                tmp_bat_lev = LVD_LEV_3V6;
+            }
         }
         break;
     case LVD_LEV_3V6:
@@ -132,9 +143,12 @@ void lvd_scan(void)
         break;
     case LVD_LEV_3V3_SWITCHING:
         cur_lvd_lev = LVD_LEV_3V3;
-        if (0 == LVDF) {
-            // 如果VDD不低于该挡位
-            tmp_bat_lev = BAT_LEV_3V3;
+        if (LVDF) {
+            // 如果VDD 低于 该挡位
+            if (tmp_bat_lev < LVD_LEV_3V3) {
+                // 数值小于 LVD_LEV_3V3 ，说明之前检测到的电压值大于 LVD_LEV_3V3
+                tmp_bat_lev = LVD_LEV_3V3;
+            }
         }
         break;
     case LVD_LEV_3V3:
@@ -147,9 +161,12 @@ void lvd_scan(void)
         break;
     case LVD_LEV_3V2_SWITCHING:
         cur_lvd_lev = LVD_LEV_3V2;
-        if (0 == LVDF) {
-            // 如果VDD不低于该挡位
-            tmp_bat_lev = BAT_LEV_3V2;
+        if (LVDF) {
+            // 如果VDD 低于 该挡位
+            if (tmp_bat_lev < LVD_LEV_3V2) {
+                // 数值小于 LVD_LEV_3V2 ，说明之前检测到的电压值大于 LVD_LEV_3V2
+                tmp_bat_lev = LVD_LEV_3V2;
+            }
         }
         break;
     case LVD_LEV_3V2:
@@ -162,9 +179,12 @@ void lvd_scan(void)
         break;
     case LVD_LEV_3V0_SWITCHING:
         cur_lvd_lev = LVD_LEV_3V0;
-        if (0 == LVDF) {
-            // 如果VDD不低于该挡位
-            tmp_bat_lev = BAT_LEV_3V0;
+        if (LVDF) {
+            // 如果VDD 低于 该挡位
+            if (tmp_bat_lev < LVD_LEV_3V0) {
+                // 数值小于 LVD_LEV_3V0 ，说明之前检测到的电压值大于 LVD_LEV_3V0
+                tmp_bat_lev = LVD_LEV_3V0;
+            }
         }
         break;
     case LVD_LEV_3V0:
@@ -177,9 +197,12 @@ void lvd_scan(void)
         break;
     case LVD_LEV_2V9_SWITCHING:
         cur_lvd_lev = LVD_LEV_2V9;
-        if (0 == LVDF) {
-            // 如果VDD不低于该挡位
-            tmp_bat_lev = BAT_LEV_2V9;
+        if (LVDF) {
+            // 如果VDD 低于 该挡位
+            if (tmp_bat_lev < LVD_LEV_2V9) {
+                // 数值小于 LVD_LEV_2V9 ，说明之前检测到的电压值大于 LVD_LEV_2V9
+                tmp_bat_lev = LVD_LEV_2V9;
+            }
         }
         break;
     }
@@ -226,12 +249,18 @@ void user_init(void)
     // 滚珠检测引脚配置 P15
     DDR1 |= 0x01 << 5; // 输入模式
 
+    // 充电检测引脚
+    DDR1 |= 0x01 << 3;
+
     timer0_init();
     timer1_init();
 
 #if USER_DEBUG_ENABLE
     // P14 控制笔头的电源引脚配置为输出模式，作为测试引脚
     DDR1 &= ~(0x01 << 4);
+
+    PUCON &= ~(0x01 << 2); // 上拉电阻 20K
+    DDR1 |= (0x01 << 2);   // P12 输入模式
 #endif
 
     delay_ms(1); // 等待系统稳定
@@ -239,30 +268,32 @@ void user_init(void)
 
 void pen_pwr_on(void)
 {
-#if 0
-    PDCON &= ~(0x01 << 4); // 下拉电阻 20K 
-    // DDR1 |= 0x01 << 4;	   // P14 输入模式
-#endif
+#if 1
+    // USER_TO_DO 测试时屏蔽，实际需要恢复
+    // PDCON &= ~(0x01 << 4); // 下拉电阻 20K
+    // DDR1 |= 0x01 << 4;     // P14 输入模式
 
-    PDCON &= ~(0x01 << 4); // 下拉电阻 20K
-    DDR1 |= 0x01 << 4;     // P14 输入模式
+    DDR1 &= ~(0x01 << 4); // 输出模式
+    P14D = 0;             // 输出低电平
+#endif
 }
 
 void pen_pwr_off(void)
 {
-#if 0
-    PUCON &= ~(0x01 << 4); // 上拉电阻 20K 
-    // DDR1 |= 0x01 << 4;	   // P14 输入模式
-#endif
 
+#if 1
+    // USER_TO_DO 测试时屏蔽，实际需要恢复
     PUCON |= (0x01 << 4); // 不使能上拉
     PDCON |= (0x01 << 4); // 不使能下拉
     DDR1 |= 0x01 << 4;    // P14 输入模式
+#endif
 }
 
 // 关闭所有led
 void led_all_off(void)
 {
+// USER_TO_DO 测试时屏蔽，实际需要恢复
+#if 1
     // 关闭所有LED驱动引脚的上下拉：
     PUCON |= (0x01 << 0); // 关闭上拉
 
@@ -270,6 +301,7 @@ void led_all_off(void)
     DDR1 |= (0x01 << 0) | // P10
             (0x01 << 1) | // P11
             (0x01 << 2);  // P12
+#endif
 }
 
 void led1_on(void)
@@ -328,15 +360,6 @@ void led4_on(void)
 // 按键检测，放在10ms定时器中断处理
 void key_scan(void)
 {
-    static volatile u8 last_key_id = KEY_ID_NONE;
-    static volatile u8 press_cnt = 0;               // 按键按下的时间计数
-    static volatile u8 filter_cnt = 0;              // 按键消抖，使用的变量
-    static volatile u8 filter_key_id = KEY_ID_NONE; // 按键消抖时使用的变量
-    // 按键短按松开之后，记录时间，用于判断这段时间内是否有再次按下
-    static volatile u8 click_delay_cnt = 0;
-    static volatile u8 click_cnt = 0; // 记录按键连击的次数
-    volatile u8 cur_key_id = KEY_ID_NONE;
-
     if (flag_is_in_charging) {
         // 充电期间，不检测按键
         last_key_id = 0;
@@ -345,13 +368,20 @@ void key_scan(void)
         filter_key_id = 0;
         click_delay_cnt = 0;
         click_cnt = 0;
-        cur_key_id = 0; 
+        cur_key_id = 0;
         return;
     }
 
+    led_all_off();
+#if 1
     // 按键检测引脚配置 P10
     PUCON &= ~(0x01 << 0); // 上拉电阻 20K
     DDR1 |= 0x01 << 0;     // 输入模式
+#else
+    // 使用仿真板上的 P12 检测按键
+    PUCON &= ~(0x01 << 2); // 上拉电阻 20K
+    DDR1 |= (0x01 << 2);   // P12 输入模式
+#endif
 
     if (1 == KEY_SCAN_PIN) {
         cur_key_id = KEY_ID_NONE;
@@ -400,9 +430,13 @@ void key_scan(void)
                 if (click_delay_cnt >= KEY_CLICK_DELAY_TIME) {
                     if (click_cnt == 1) {
                         // 单击
+                        // P14D = ~P14D; // USER_TO_DO 测试时使用
                     } else {
                         // click_cnt == 2 // 双击
                         flag_is_dev_working = ~flag_is_dev_working;
+
+                        // P14D = ~P14D; // USER_TO_DO 测试时使用
+
                         if (flag_is_dev_working) {
                             pen_pwr_on();
                         } else {
@@ -412,8 +446,10 @@ void key_scan(void)
 
                     click_cnt = 0; // 处理完事件后,清空连击的次数
                 } else {
-                    if (click_delay_cnt < 255) // 防止计数溢出
+                    if (click_delay_cnt < 255) {
+                        // 防止计数溢出
                         click_delay_cnt++;
+                    }
                 }
             }
         }
@@ -421,8 +457,9 @@ void key_scan(void)
         // KEY_ID_NONE，说明按键按下未松开
         else {
             // 如果按键按住不放
-            if (press_cnt < 255)
+            if (press_cnt < 255) {
                 press_cnt++;
+            }
         }
     }
 
@@ -585,35 +622,56 @@ void main(void)
 
     while (1) {
 
+#if 1
         /*
             如果不在充电，并且到了关机的时间
 
             如果不在充电并且设备不在运行，2s后进入低功耗
         */
-        if ((flag_is_dev_working && pwr_off_cnt >= (u32)5 * 60 * 1000) ||
+        if ((flag_is_dev_working && pwr_off_cnt >= (u32)5 * 60 * 1000 / 10) ||
             into_low_power_cnt >= (u8)((u16)2000 / 10)) {
         label_low_power_in: // 标签，进入低功耗
+
+            // USER_TO_DO 测试时使用，观察是否进入了低功耗
+            // DDR1 &= ~(0x01 << 4); // 输出模式
+            // P14D = ~P14D;
+            // delay_ms(20);
+            // P14D = ~P14D;
+            // delay_ms(20);
+            // P14D = ~P14D;
+            // delay_ms(20);
+            // P14D = ~P14D;
+            // delay_ms(20);
 
             GIE = 0; // 关闭总中断
 
             // 关闭定时器：
-            T0IE = 0; // 屏蔽 timer0 中断
-            T1IE = 0; // 屏蔽 timer1 中断
-            T1EN = 0; // 不使能定时器
+            T0IE = 0;  // 屏蔽 timer0 中断
+            T1IE = 0;  // 屏蔽 timer1 中断
+            T1EN = 0;  // 不使能定时器
+            LVDEN = 0; // 关闭 lvd
 
             // 所有引脚配置为输入模式、关闭上下拉
             PUCON = 0xFF; // 0:Effective 1:invalid
             PDCON = 0xFF; // 0:Effective 1:invalid
-            DDR1 = 0x00;  // 1:input 0:output
+            DDR1 = 0xFF;  // 1:input 0:output
 
-            // 配置唤醒源： 充电、按键
-            PUCON &= 0x01 << 0; // 上拉 20K ， P10(按键检测脚)
+            PUCON &= ~(0x01 << 0); // 上拉 20K ， P10(按键检测脚)
+            // USER_TO_DO 测试时使用：
+            // PUCON &= ~(0x01 << 2); // P12 上拉
+            // DDR1 |= (0x01 << 2);   // 输入模式
 
             // 使能键盘中断
             KBIF = 0; // 清除中断标志
             KBIE = 1; // 使能键盘中断
+
+#if 1
             // P10(按键检测脚) 、 P13(充电检测脚) 打开键盘中断
-            P1KBCR |= 0x01 << 0 | 0x01 << 3;
+            P1KBCR |= (0x01 << 0) | (0x01 << 3);
+#else
+            // USER_TO_DO 只在测试时使用，使用 P13(充电检测脚) 、 P12(测试脚)
+            P1KBCR |= (0x01 << 3) | (0x01 << 2);
+#endif
 
             // =================================================================
             // 进入低功耗
@@ -621,29 +679,31 @@ void main(void)
             Nop();
             Nop();
             // =================================================================
-
             // 唤醒之后，关闭键盘中断
-            P1KBCR &= ~(0x01 << 0 | 0x01 << 3);
+            P1KBCR = 0; // 关闭所有键盘中断
             KBIE = 0;
             KBIF = 0;
 
-            // 立即获取一次电池电量
+            Sys_Init();
+            user_init();
+
+            // 立即获取一次电池电量 ( 需要放在 C_RAM() 函数之后 )
             for (i = 0; i < 40; i++) {
                 lvd_scan();
                 delay_ms(1);
+
+                // 测试时使用，观察是否退出了低功耗
+                // P14D = ~P14D;
             }
 
             bat_lev = tmp_bat_lev;
 
-            // 如果没有在充电、没有按下按键、没有在充电并且低电量，重新回到低功耗
-            if ((CHARGE_PIN == 0 && bat_lev > BAT_LEV_3V0) ||
-                (CHARGE_PIN == 0 && KEY_SCAN_PIN == 1)) {
+            // 没有在充电并且低电量，重新回到低功耗
+            if (CHARGE_PIN == 0 && bat_lev > BAT_LEV_3V0) {
                 goto label_low_power_in;
             }
-
-            Sys_Init();
-            user_init();
         }
+#endif
     }
 }
 
@@ -678,7 +738,6 @@ void int_isr(void) __interrupt
                 led_status_handle();
 
                 if (flag_is_dev_working) {
-
                     // 防止计数溢出
                     if (pwr_off_cnt < (u32)5 * 60 * 1000 / 10) {
                         pwr_off_cnt++;
@@ -719,6 +778,14 @@ void int_isr(void) __interrupt
                         cnt = 0;
 
                         bat_lev = tmp_bat_lev;
+
+                        // USER_TO_DO
+                        // 加入低电量关机
+                        if (flag_is_dev_working && bat_lev == BAT_LEV_2V9) {
+                            pen_pwr_off();           // 断开笔头的供电
+                            led_all_off();           // 关闭所有指示灯
+                            flag_is_dev_working = 0; // 表示设备关闭
+                        }
                     }
                 }
 
@@ -739,6 +806,9 @@ void int_isr(void) __interrupt
                                 flag_is_in_charging = 1;
                             }
                         }
+
+                        // DDR1 &= ~(0x01 << 4);
+                        // P14D = ~P14D;
                     } else {
                         cnt = 0;
                         flag_is_in_charging = 0;
@@ -746,7 +816,8 @@ void int_isr(void) __interrupt
                 }
 
                 // 如果不在充电，设备也没有在工作
-                if (flag_is_in_charging == 0 && flag_is_dev_working == 0) {
+                // if (flag_is_in_charging == 0 && flag_is_dev_working == 0) {
+                if (CHARGE_PIN == 0 && flag_is_dev_working == 0) {
                     if (into_low_power_cnt < 255) {
                         into_low_power_cnt++;
                     }
@@ -762,6 +833,9 @@ void int_isr(void) __interrupt
     // 100us 定时器中断
     if ((T1IF) && (T1IE)) {
         T1IF = 0;
+
+// USER_TO_DO 测试时屏蔽
+#if 1
         led_refresh();
 
         // 如果检测到的振动传感器传来的信号，当前检测脚的电平跟上次的不一样
@@ -774,6 +848,7 @@ void int_isr(void) __interrupt
             last_vibration_sensor_lev = VIBRATION_SENSOR_PIN;
             // printf("detect lev\n"); // 测试可以检测到电平变化
         }
+#endif
     }
 
     __asm;

@@ -48,9 +48,11 @@
 #define USER_DEBUG_ENABLE 0
 
 // 按键检测引脚
+#if 1
 #define KEY_SCAN_PIN P10D
-// // 笔头供电控制引脚（目前不用推挽输出来驱动，还需要结合实际的电路板测试一下）
-// #define PEN_POWER_PIN P14D
+#else
+#define KEY_SCAN_PIN P12D // USER_TO_DO 测试时使用
+#endif
 // 振动传感器检测脚
 #define VIBRATION_SENSOR_PIN P15D
 // 充电检测脚
@@ -67,36 +69,36 @@
 // 定义在lvd扫描时,需要切换到的各个配置状态:
 enum
 {
-	LVD_LEV_NONE = 0,
+    LVD_LEV_NONE = 0,
 
-	LVD_LEV_2V9_SWITCHING, // 正在切换中(手册说,切换LVD档位后,至少等200us)
-	LVD_LEV_2V9,		   // 切换完成
+    LVD_LEV_2V9_SWITCHING, // 正在切换中(手册说,切换LVD档位后,至少等200us)
+    LVD_LEV_2V9,           // 切换完成
 
-	LVD_LEV_3V0_SWITCHING,
-	LVD_LEV_3V0,
+    LVD_LEV_3V0_SWITCHING,
+    LVD_LEV_3V0,
 
-	LVD_LEV_3V2_SWITCHING,
-	LVD_LEV_3V2,
+    LVD_LEV_3V2_SWITCHING,
+    LVD_LEV_3V2,
 
-	LVD_LEV_3V3_SWITCHING,
-	LVD_LEV_3V3,
+    LVD_LEV_3V3_SWITCHING,
+    LVD_LEV_3V3,
 
-	LVD_LEV_3V6_SWITCHING,
-	LVD_LEV_3V6,
+    LVD_LEV_3V6_SWITCHING,
+    LVD_LEV_3V6,
 
-	LVD_LEV_4V0_SWITCHING,
-	LVD_LEV_4V0,
+    LVD_LEV_4V0_SWITCHING,
+    LVD_LEV_4V0,
 };
 
 // 定义电池电量的档位:
 enum
 {
-	BAT_LEV_4V0 = 0, // 默认电池满电
-	BAT_LEV_3V6,	 // 三格电量
-	BAT_LEV_3V3,	 // 二格电量
-	BAT_LEV_3V2,	 // 一格电量
-	BAT_LEV_3V0,	 // 低电量,让指示灯闪烁
-	BAT_LEV_2V9,	 // 关机电压
+    BAT_LEV_4V0 = 0, // 默认电池满电
+    BAT_LEV_3V6,     // 三格电量
+    BAT_LEV_3V3,     // 二格电量
+    BAT_LEV_3V2,     // 一格电量
+    BAT_LEV_3V0,     // 低电量,让指示灯闪烁
+    BAT_LEV_2V9,     // 关机电压
 };
 typedef u8 bat_lev_t;
 
@@ -107,8 +109,8 @@ typedef u8 bat_lev_t;
 // 定义按键键值
 enum
 {
-	KEY_ID_NONE = 0x00,
-	KEY_ID_VAILD,
+    KEY_ID_NONE = 0x00,
+    KEY_ID_VAILD,
 };
 // 定义按键事件
 // enum
@@ -121,8 +123,8 @@ enum
 // 定义设备的状态
 enum
 {
-	DEV_STA_IDLE = 0,
-	DEV_STA_WORKING,
+    DEV_STA_IDLE = 0,
+    DEV_STA_WORKING,
 };
 typedef u8 dev_sta_t;
 
@@ -142,8 +144,6 @@ void Sys_Init(void);
 
 void user_init(void);
 
-
-
 void led_all_off(void);
 void led1_on(void);
 void led2_on(void);
@@ -158,31 +158,31 @@ void lvd_scan(void);
 //===============Define  Flag===============
 typedef union
 {
-	unsigned char byte;
-	struct
-	{
-		u8 bit0 : 1;
-		u8 bit1 : 1;
-		u8 bit2 : 1;
-		u8 bit3 : 1;
-		u8 bit4 : 1;
-		u8 bit5 : 1;
-		u8 bit6 : 1;
-		u8 bit7 : 1;
-	} bits;
+    unsigned char byte;
+    struct
+    {
+        u8 bit0 : 1;
+        u8 bit1 : 1;
+        u8 bit2 : 1;
+        u8 bit3 : 1;
+        u8 bit4 : 1;
+        u8 bit5 : 1;
+        u8 bit6 : 1;
+        u8 bit7 : 1;
+    } bits;
 } bit_flag_t;
 // example:
 // #define  	FLAG_TIMER0_500ms  	flag1.bits.bit0	   	 // 标志位
-extern volatile bit_flag_t flag1; 
+extern volatile bit_flag_t flag1;
 extern volatile bit_flag_t flag2;
 
 // 是否正在充电
-#define flag_is_in_charging flag1.bits.bit0 
+#define flag_is_in_charging flag1.bits.bit0
 // 是否刚进入充电
 #define flag_is_charge_begin flag1.bits.bit1
 // 控制标志位，是否点亮led：
 #define flag_led_1_on flag1.bits.bit2
-#define flag_led_2_on flag1.bits.bit3	
+#define flag_led_2_on flag1.bits.bit3
 #define flag_led_3_on flag1.bits.bit4
 #define flag_led_4_on flag1.bits.bit5
 // 设备是否运转（ USER_TO_DO 充电时，需要清空该标志位）
