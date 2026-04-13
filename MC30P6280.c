@@ -388,6 +388,11 @@ void key_scan(void)
     } else {
         // 按键按下
         cur_key_id = KEY_ID_VAILD;
+
+        // USER_TO_DO 
+        // 有按键按下，清空自动关机、自动进入低功耗的计时
+        pwr_off_cnt = 0;
+        into_low_power_cnt = 0;
     }
 
     if (cur_key_id != filter_key_id) {
@@ -441,6 +446,10 @@ void key_scan(void)
                             pen_pwr_on();
                         } else {
                             pen_pwr_off();
+                            flag_led_1_on = 0;
+                            flag_led_2_on = 0;  
+                            flag_led_3_on = 0;
+                            flag_led_4_on = 0;  
                         }
                     }
 
@@ -537,7 +546,7 @@ void led_status_handle(void)
                     flag_led_3_on = 1; // 指示灯常亮，不闪烁
                 }
             }
-        } else {
+        } else if (flag_is_dev_working) {
             // 放电时，控制指示灯常亮
 
             /*
@@ -573,6 +582,12 @@ void led_status_handle(void)
                 // 低电量，指示灯闪烁
                 flag_led_1_on = ~flag_led_1_on;
             }
+        } else {
+            // 不在充电，设备也没有在工作，关闭所有指示灯
+            flag_led_1_on = 0;
+            flag_led_2_on = 0;
+            flag_led_3_on = 0;
+            flag_led_4_on = 0;
         }
     }
 }
@@ -656,7 +671,8 @@ void main(void)
             PDCON = 0xFF; // 0:Effective 1:invalid
             DDR1 = 0xFF;  // 1:input 0:output
 
-            PUCON &= ~(0x01 << 0); // 上拉 20K ， P10(按键检测脚)
+            PUCON &= ~(0x01 << 0);             // 上拉 20K ， P10(按键检测脚)
+            PUCON &= ~(0x01 << 1 | 0x01 << 2); // LED控制 A端和B端，打开上拉
             // USER_TO_DO 测试时使用：
             // PUCON &= ~(0x01 << 2); // P12 上拉
             // DDR1 |= (0x01 << 2);   // 输入模式
@@ -681,8 +697,13 @@ void main(void)
             // =================================================================
             // 唤醒之后，关闭键盘中断
             P1KBCR = 0; // 关闭所有键盘中断
-            KBIE = 0;
-            KBIF = 0;
+            KBIE = 0;   // 关闭键盘中断
+            KBIF = 0;   // 清除 键盘中断 标志
+            /*
+                LED控制 A端和B端，关闭上拉
+                后面有调用 IO_Init() 关闭了所有上下拉，这里可以省略
+            */
+            // PUCON |= (0x01 << 1 | 0x01 << 2);
 
             Sys_Init();
             user_init();
@@ -797,8 +818,12 @@ void int_isr(void) __interrupt
                         if (cnt >= 10) {
                             cnt = 0;
                             if (0 == flag_is_in_charging) {
-                                pen_pwr_off();           // 断开笔头的供电
-                                led_all_off();           // 关闭所有指示灯，准备充电动画
+                                pen_pwr_off(); // 断开笔头的供电
+                                // led_all_off();           // 关闭所有指示灯，准备充电动画
+                                flag_led_1_on = 0;
+                                flag_led_2_on = 0;
+                                flag_led_3_on = 0;
+                                flag_led_4_on = 0;
                                 flag_is_dev_working = 0; // 表示设备关闭
                                 // 表示刚进入充电
                                 flag_is_charge_begin = 1;
@@ -811,13 +836,19 @@ void int_isr(void) __interrupt
                         // P14D = ~P14D;
                     } else {
                         cnt = 0;
+
+                        // if (flag_is_in_charging) {
+                        //     // 如果之前在充电，则停止充电动画
+                        //     led_all_off();
+                        // }
+
                         flag_is_in_charging = 0;
                     }
                 }
 
-                // 如果不在充电，设备也没有在工作
+                // 如果不在充电、设备也没有在工作
                 // if (flag_is_in_charging == 0 && flag_is_dev_working == 0) {
-                if (CHARGE_PIN == 0 && flag_is_dev_working == 0) {
+                if ((CHARGE_PIN == 0) && (flag_is_dev_working == 0)) {
                     if (into_low_power_cnt < 255) {
                         into_low_power_cnt++;
                     }
