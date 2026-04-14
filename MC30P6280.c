@@ -25,6 +25,7 @@ volatile u8 into_low_power_cnt = 0;
 volatile u8 charge_anim_phase = 0; // 控制充电动画
 
 volatile u8 i; // 循环计数值
+volatile u8 led_sta_reflash_cnt = 0;
 
 static volatile u8 last_key_id = KEY_ID_NONE;
 static volatile u8 press_cnt = 0;               // 按键按下的时间计数
@@ -295,7 +296,10 @@ void led_all_off(void)
 // USER_TO_DO 测试时屏蔽，实际需要恢复
 #if 1
     // 关闭所有LED驱动引脚的上下拉：
-    PUCON |= (0x01 << 0); // 关闭上拉
+    // 关闭 按键扫描的上拉、LED控制的上拉
+    // 可能是唤醒之后芯片没有关掉led的上拉，导致之后无法进入低功耗，这里重新关闭一次上拉：
+    PUCON |= (0x01 << 0 | 0x01 << 1 | 0x01 << 2);
+
 
     // 所有led驱动引脚配置为 输入模式
     DDR1 |= (0x01 << 0) | // P10
@@ -389,7 +393,7 @@ void key_scan(void)
         // 按键按下
         cur_key_id = KEY_ID_VAILD;
 
-        // USER_TO_DO 
+        // USER_TO_DO
         // 有按键按下，清空自动关机、自动进入低功耗的计时
         pwr_off_cnt = 0;
         into_low_power_cnt = 0;
@@ -444,12 +448,14 @@ void key_scan(void)
 
                         if (flag_is_dev_working) {
                             pen_pwr_on();
+                            // 让led指示灯立即更新状态
+                            led_sta_reflash_cnt = (u8)(500 / 10);
                         } else {
                             pen_pwr_off();
                             flag_led_1_on = 0;
-                            flag_led_2_on = 0;  
+                            flag_led_2_on = 0;
                             flag_led_3_on = 0;
-                            flag_led_4_on = 0;  
+                            flag_led_4_on = 0;
                         }
                     }
 
@@ -478,10 +484,9 @@ void key_scan(void)
 // 放在10ms的定时器中断内调用
 void led_status_handle(void)
 {
-    static volatile u8 cnt = 0; // 控制LED闪烁时间间隔
-    cnt++;
-    if (cnt >= (u8)(500 / 10)) {
-        cnt = 0;
+    led_sta_reflash_cnt++;
+    if (led_sta_reflash_cnt >= (u8)(500 / 10)) {
+        led_sta_reflash_cnt = 0;
         if (flag_is_in_charging) {
             // 充电时，控制指示灯跑马显示
 
@@ -516,7 +521,7 @@ void led_status_handle(void)
                         退出刚开始充电的动画之后，需要立即进入对应的处理
                         这里给计数值恢复成 500 ms
                     */
-                    cnt = (u8)(500 / 10);
+                    pwr_off_cnt = (u8)(500 / 10);
                 }
             } else {
                 // 如果不是刚进入充电，根据电池电量档位来控制指示灯闪烁
@@ -642,9 +647,11 @@ void main(void)
             如果不在充电，并且到了关机的时间
 
             如果不在充电并且设备不在运行，2s后进入低功耗
+            改成直接进低功耗
         */
         if ((flag_is_dev_working && pwr_off_cnt >= (u32)5 * 60 * 1000 / 10) ||
             into_low_power_cnt >= (u8)((u16)2000 / 10)) {
+            // (flag_is_dev_working == 0 && flag_is_in_charging == 0)) {
         label_low_power_in: // 标签，进入低功耗
 
             // USER_TO_DO 测试时使用，观察是否进入了低功耗
@@ -659,6 +666,9 @@ void main(void)
             // delay_ms(20);
 
             GIE = 0; // 关闭总中断
+
+            pwr_off_cnt = 0;
+            into_low_power_cnt = 0;
 
             // 关闭定时器：
             T0IE = 0;  // 屏蔽 timer0 中断
