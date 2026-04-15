@@ -71,140 +71,68 @@ void IO_Init(void)
     PDCON = 0xff; // 0:Effective 1:invalid
     ODCON = 0x00; // 0:推挽输出  1:开漏输出
 }
-/************************************************
-;  *    @Function Name       : LVD_Init
-;  *    @Description         : LVD set
-;  *    @IN_Parameter      	 :
-;  *    @Return parameter    :
-;  ***********************************************/
 
-// void LVD_Init(void)
-// {
-//     MCR &= ~(DEF_SET_BIT1 | DEF_SET_BIT2 | DEF_SET_BIT3 | DEF_SET_BIT4);
-//     MCR |= (DEF_SET_BIT2 | DEF_SET_BIT3 | DEF_SET_BIT4); // 4V
-
-//     // 清空 LVD 电压检测阀值配置
-//     MCR &= ~(0x01 << 1 | 0x01 << 2 | 0x01 << 3 | 0x01 << 4);
-//     MCR |= LVD_CFG_3V0;
-
-//     LVDEN = 1; // 使能LVD
-// }
-
-// 至少隔1ms才调用一次:
+// 手册说切换LVD挡位后，至少隔200us，LVD的输出才有效：
+// 可以隔1ms再调用一次该函数
 void lvd_scan(void)
 {
-    static u8 cur_lvd_lev = LVD_LEV_NONE;
-    LVDEN = 1;                 // 使能 LVD
-    tmp_bat_lev = BAT_LEV_4V0; // 每次检测，都假设当前电压挡位是4.0V
+    static u8 cur_lvd_state = LVD_LEV_4V2;
+    LVDEN = 1; // 使能 LVD
 
-    switch (cur_lvd_lev) {
-    case LVD_LEV_NONE: // LVD_LEV_NONE、LVD_LEV_2V9都用同一个语句块
-    case LVD_LEV_2V9:  // LVD_LEV_NONE、LVD_LEV_2V9都用同一个语句块
-        /*
-            刚上电、刚从低功耗恢复、或者是在 LVD_LEV_2V9 状态
-            切换到 4V0 档位
-        */
-        // 清空 LVD 电压检测阀值配置
+    switch (cur_lvd_state) {
+    case LVD_LEV_NONE:
+    case LVD_LEV_2V9:
+        // 当前变量是默认值0,或者是已经切换完一轮挡位,重新从4.2V开始切换挡位
+        MCR &= ~MCR_LVD_CFG_ALL;
+        MCR |= MCR_LVD_CFG_4V2;
+        cur_lvd_state = LVD_LEV_4V2_SWITCHING;
+        break;
+    case LVD_LEV_4V2_SWITCHING:
+        cur_lvd_state = LVD_LEV_4V2;
+        if (LVDF) {
+            /*
+                如果当前VDD电压小于 BAT_LEV_4V2,
+                但 bat_lev 记录的挡位大于等于 BAT_LEV_4V2,
+                将 bat_lev 记录的挡位下调一级
+            */
+            if (bat_lev == BAT_LEV_4V2) {
+                bat_lev = BAT_LEV_4V0; 
+            }
+        } else {
+            /*
+                如果当前检测VDD电压不小于该挡位 BAT_LEV_4V2
+            */
+            bat_lev = BAT_LEV_4V2;
+        }
+        break;
+    case LVD_LEV_4V2:
         MCR &= ~MCR_LVD_CFG_ALL;
         MCR |= MCR_LVD_CFG_4V0;
-        cur_lvd_lev = LVD_LEV_4V0_SWITCHING;
+        cur_lvd_state = LVD_LEV_4V0_SWITCHING;
         break;
     case LVD_LEV_4V0_SWITCHING:
-        cur_lvd_lev = LVD_LEV_4V0;
-        if (0 == LVDF) {
-            // 如果VDD不低于该挡位
-            tmp_bat_lev = BAT_LEV_4V0;
-        }
-        break;
-    case LVD_LEV_4V0:
-        // 4V0 档位切换到 3V6 档位
-
-        // 清空 LVD 电压检测阀值配置
-        MCR &= ~MCR_LVD_CFG_ALL;
-        MCR |= MCR_LVD_CFG_3V6;
-        cur_lvd_lev = LVD_LEV_3V6_SWITCHING;
-        break;
-    case LVD_LEV_3V6_SWITCHING:
-        cur_lvd_lev = LVD_LEV_3V6;
+        cur_lvd_state = LVD_LEV_4V0;
         if (LVDF) {
-            // 如果VDD 低于 该挡位
-            if (tmp_bat_lev < LVD_LEV_3V6) {
-                // 数值小于 LVD_LEV_3V6 ，说明之前检测到的电压值大于 LVD_LEV_3V6
-                tmp_bat_lev = LVD_LEV_3V6;
+            /*
+                如果当前VDD电压小于 BAT_LEV_4V0,
+                但 bat_lev 记录的挡位大于等于 BAT_LEV_4V0,
+                将 bat_lev 记录的挡位下调一级
+            */
+            if (bat_lev >= BAT_LEV_4V0) {
+                bat_lev = BAT_LEV_3V6;
+            }
+        } else {
+            /*
+                如果当前检测VDD电压不小于该挡位,
+                但 bat_lev 记录的挡位小于该挡位,
+                将 bat_lev 记录的挡位调高一级
+            */
+            if (bat_lev <= BAT_LEV_4V0)
+            {
+                bat_lev = BAT_LEV_4V0;
             }
         }
-        break;
-    case LVD_LEV_3V6:
-        // 3V6 档位切换到 3V3 档位
 
-        // 清空 LVD 电压检测阀值配置
-        MCR &= ~MCR_LVD_CFG_ALL;
-        MCR |= MCR_LVD_CFG_3V3;
-        cur_lvd_lev = LVD_LEV_3V3_SWITCHING;
-        break;
-    case LVD_LEV_3V3_SWITCHING:
-        cur_lvd_lev = LVD_LEV_3V3;
-        if (LVDF) {
-            // 如果VDD 低于 该挡位
-            if (tmp_bat_lev < LVD_LEV_3V3) {
-                // 数值小于 LVD_LEV_3V3 ，说明之前检测到的电压值大于 LVD_LEV_3V3
-                tmp_bat_lev = LVD_LEV_3V3;
-            }
-        }
-        break;
-    case LVD_LEV_3V3:
-        // 3V3 档位切换到 3V2 档位
-
-        // 清空 LVD 电压检测阀值配置
-        MCR &= ~MCR_LVD_CFG_ALL;
-        MCR |= MCR_LVD_CFG_3V2;
-        cur_lvd_lev = LVD_LEV_3V2_SWITCHING;
-        break;
-    case LVD_LEV_3V2_SWITCHING:
-        cur_lvd_lev = LVD_LEV_3V2;
-        if (LVDF) {
-            // 如果VDD 低于 该挡位
-            if (tmp_bat_lev < LVD_LEV_3V2) {
-                // 数值小于 LVD_LEV_3V2 ，说明之前检测到的电压值大于 LVD_LEV_3V2
-                tmp_bat_lev = LVD_LEV_3V2;
-            }
-        }
-        break;
-    case LVD_LEV_3V2:
-        // 3V2 档位切换到 3V0 档位
-
-        // 清空 LVD 电压检测阀值配置
-        MCR &= ~MCR_LVD_CFG_ALL;
-        MCR |= MCR_LVD_CFG_3V0;
-        cur_lvd_lev = LVD_LEV_3V0_SWITCHING;
-        break;
-    case LVD_LEV_3V0_SWITCHING:
-        cur_lvd_lev = LVD_LEV_3V0;
-        if (LVDF) {
-            // 如果VDD 低于 该挡位
-            if (tmp_bat_lev < LVD_LEV_3V0) {
-                // 数值小于 LVD_LEV_3V0 ，说明之前检测到的电压值大于 LVD_LEV_3V0
-                tmp_bat_lev = LVD_LEV_3V0;
-            }
-        }
-        break;
-    case LVD_LEV_3V0:
-        // 3V0 档位切换到 2V9 档位
-
-        // 清空 LVD 电压检测阀值配置
-        MCR &= ~MCR_LVD_CFG_ALL;
-        MCR |= MCR_LVD_CFG_2V9;
-        cur_lvd_lev = LVD_LEV_2V9_SWITCHING;
-        break;
-    case LVD_LEV_2V9_SWITCHING:
-        cur_lvd_lev = LVD_LEV_2V9;
-        if (LVDF) {
-            // 如果VDD 低于 该挡位
-            if (tmp_bat_lev < LVD_LEV_2V9) {
-                // 数值小于 LVD_LEV_2V9 ，说明之前检测到的电压值大于 LVD_LEV_2V9
-                tmp_bat_lev = LVD_LEV_2V9;
-            }
-        }
         break;
     }
 }
@@ -299,7 +227,6 @@ void led_all_off(void)
     // 关闭 按键扫描的上拉、LED控制的上拉
     // 可能是唤醒之后芯片没有关掉led的上拉，导致之后无法进入低功耗，这里重新关闭一次上拉：
     PUCON |= (0x01 << 0 | 0x01 << 1 | 0x01 << 2);
-
 
     // 所有led驱动引脚配置为 输入模式
     DDR1 |= (0x01 << 0) | // P10

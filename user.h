@@ -58,47 +58,53 @@
 // 充电检测脚
 #define CHARGE_PIN P13D
 
-// 定义LVD各个电压检测阈值配置
+// 定义LVD各个电压检测阈值配置：
 #define MCR_LVD_CFG_ALL ((u8)(0x01 << 4 | 0x01 << 3 | 0x01 << 2 | 0x01 << 1))
+#define MCR_LVD_CFG_4V2 ((u8)(0x01 << 4 | 0x01 << 3 | 0x01 << 2 | 0x01 << 1))
 #define MCR_LVD_CFG_4V0 ((u8)(0x01 << 4 | 0x01 << 3 | 0x01 << 2))
 #define MCR_LVD_CFG_3V6 ((u8)(0x01 << 4 | 0x01 << 3 | 0x01 << 1))
 #define MCR_LVD_CFG_3V3 ((u8)(0x01 << 4 | 0x01 << 3))
 #define MCR_LVD_CFG_3V2 ((u8)(0x01 << 4 | 0x01 << 2 | 0x01 << 1))
 #define MCR_LVD_CFG_3V0 ((u8)(0x01 << 4 | 0x01 << 2))
 #define MCR_LVD_CFG_2V9 ((u8)(0x01 << 4 | 0x01 << 1))
+
 // 定义在lvd扫描时,需要切换到的各个配置状态:
 enum
 {
     LVD_LEV_NONE = 0,
 
-    LVD_LEV_2V9_SWITCHING, // 正在切换中(手册说,切换LVD档位后,至少等200us)
-    LVD_LEV_2V9,           // 切换完成
+    LVD_LEV_4V2_SWITCHING,
+    LVD_LEV_4V2,
 
-    LVD_LEV_3V0_SWITCHING,
-    LVD_LEV_3V0,
-
-    LVD_LEV_3V2_SWITCHING,
-    LVD_LEV_3V2,
-
-    LVD_LEV_3V3_SWITCHING,
-    LVD_LEV_3V3,
+    LVD_LEV_4V0_SWITCHING,
+    LVD_LEV_4V0,
 
     LVD_LEV_3V6_SWITCHING,
     LVD_LEV_3V6,
 
-    LVD_LEV_4V0_SWITCHING,
-    LVD_LEV_4V0,
+    LVD_LEV_3V3_SWITCHING,
+    LVD_LEV_3V3,
+
+    LVD_LEV_3V2_SWITCHING,
+    LVD_LEV_3V2,
+
+    LVD_LEV_3V0_SWITCHING,
+    LVD_LEV_3V0,
+
+    LVD_LEV_2V9_SWITCHING, // 正在切换中(手册说,切换LVD档位后,至少等200us，LVD输出才稳定)
+    LVD_LEV_2V9,           // 切换完成
 };
 
 // 定义电池电量的档位:
 enum
 {
-    BAT_LEV_4V0 = 0, // 默认电池满电
-    BAT_LEV_3V6,     // 三格电量
-    BAT_LEV_3V3,     // 二格电量
-    BAT_LEV_3V2,     // 一格电量
-    BAT_LEV_3V0,     // 低电量,让指示灯闪烁
-    BAT_LEV_2V9,     // 关机电压
+    BAT_LEV_2V9 = 0, // 关机电压
+    BAT_LEV_3V0,     //
+    BAT_LEV_3V2,     // 低电量
+    BAT_LEV_3V3,     //
+    BAT_LEV_3V6,     //
+    BAT_LEV_4V0,
+    BAT_LEV_4V2, //
 };
 typedef u8 bat_lev_t;
 
