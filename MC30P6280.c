@@ -541,12 +541,12 @@ void led_status_handle(void)
                 }
                 if (bat_lev >= BAT_LEV_4V2) {
                     // flag_led_4_on = 1; // 指示灯常亮，不闪烁
-                    charge_fully_cnt++;
-                    if (charge_fully_cnt >= (u16)(((u32)6 * 60 * 1000) / 10)) {
+                    // charge_fully_cnt++;
+                    // if (charge_fully_cnt >= (u16)(((u32)6 * 60 * 1000) / 10)) {
                     // if (charge_fully_cnt >= (u16)(((u32)30 * 1000) / 10)) {
-                        flag_led_4_on = 1;     // 充满且过了6分钟，才让指示灯常亮
-                        charge_fully_cnt -= 1; // 防止下次进入计数溢出
-                    }
+                    flag_led_4_on = 1; // 充满且过了6分钟，才让指示灯常亮
+                    //     charge_fully_cnt -= 1; // 防止下次进入计数溢出
+                    // }
                 }
             }
         } else if (flag_is_dev_working) {
