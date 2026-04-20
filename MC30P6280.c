@@ -9,10 +9,11 @@
 ******************************************************************************/
 #include "user.h"
 
-u8 abuf;
-u8 statusbuf;
+u8 volatile abuf;
+u8 volatile statusbuf;
 
 volatile bit_flag_t flag1;
+volatile bit_flag_t flag2;
 
 // 当前切换到的电池电压比较挡位：
 volatile bat_lev_t cur_cmp_bat_lev = 0;
@@ -30,7 +31,7 @@ volatile u16 pwr_off_cnt = 0;   // 5min 自动关机的倒计时
 */
 volatile u8 into_low_power_cnt = 0;
 
-volatile u8 charge_anim_phase = 0; // 控制充电动画
+volatile u8 charge_anim_phase = 0; // 控制充电动画 (刚进入充电时，要注意清零)
 
 // volatile u8 i; // 循环计数值
 volatile u16 charge_fully_cnt = 0; // 充满电的计数值 ( USER_TO_DO 刚进入充电时需要清零)
@@ -86,7 +87,9 @@ void IO_Init(void)
 // 可以隔1ms再调用一次该函数
 void lvd_scan(void)
 {
-    static u8 cur_lvd_state = 0;
+    // static u8 cur_lvd_state = 0;
+    static volatile u8 cur_lvd_state = 0;
+
     LVDEN = 1; // 使能 LVD
 
     switch (cur_lvd_state) {
@@ -164,9 +167,9 @@ void lvd_scan(void)
         cur_lvd_state == LVD_LEV_2V9) {
         if (LVDF) {
             /*
-                如果当前VDD电压小于 BAT_LEV_XX ,
-                但 记录的挡位大于 BAT_LEV_XX ,
-                将 记录的挡位下调一级
+                如果当前 VDD电压 小于 BAT_LEV_XX ,
+                但 记录的挡位 大于等于 BAT_LEV_XX ,
+                将 记录的挡位 下调一级
             */
             if (tmp_bat_lev >= cur_cmp_bat_lev) {
                 // 防止下溢：
@@ -178,10 +181,14 @@ void lvd_scan(void)
             }
         } else {
             /*
-                如果当前检测VDD电压不小于该挡位
-                将 记录的挡位上调一级
+                如果当前检测 VDD电压 不小于 该挡位
+                但 记录的挡位 小于 该挡位
+                将 记录的挡位 上调一级
+
+                如果 记录的档位 等于 该档位
+                不作修改
             */
-            if (tmp_bat_lev <= cur_cmp_bat_lev) {
+            if (tmp_bat_lev < cur_cmp_bat_lev) {
                 // 防止上溢：
                 if (cur_cmp_bat_lev != BAT_LEV_4V2) {
                     tmp_bat_lev += 1;
@@ -430,6 +437,7 @@ void key_scan(void)
                             // 让led指示灯立即更新状态
                             led_sta_reflash_cnt = (u8)(500 / 10);
                         } else {
+                            // 通过按键关机之后，立即关闭指示灯，不等led刷新
                             pen_pwr_off();
                             flag_led_1_on = 0;
                             flag_led_2_on = 0;
@@ -511,21 +519,22 @@ void led_status_handle(void)
                     led_sta_reflash_cnt = (u8)(500 / 10);
                 }
             } else {
-                // 如果不是刚进入充电，根据电池电量档位来控制指示灯闪烁
+                // 如果不是刚进入充电，而是正在充电，根据电池电量档位来控制指示灯闪烁
                 switch (bat_lev) {
                 case BAT_LEV_4V2:
-                case BAT_LEV_4V0:
+                case BAT_LEV_4V0: // 4.0V ~ 4.2V，用第四格指示灯
                     flag_led_4_on = ~flag_led_4_on;
                     break;
-                case BAT_LEV_3V6:
+                case BAT_LEV_3V6: // 3.6V ~ 4.0V，用第三格指示灯
                     flag_led_3_on = ~flag_led_3_on;
                     break;
-                case BAT_LEV_3V3:
+                case BAT_LEV_3V3: // 3.3V ~ 3.6V，用第二格指示灯
                     flag_led_2_on = ~flag_led_2_on;
                     break;
                 // default:
+                case BAT_LEV_3V2:
                 case BAT_LEV_3V0:
-                case BAT_LEV_2V9:
+                case BAT_LEV_2V9: // 3.3V 以下的电压，用 第一格 指示灯
                     flag_led_1_on = ~flag_led_1_on;
                     break;
                 }
@@ -533,20 +542,30 @@ void led_status_handle(void)
                 if (bat_lev >= BAT_LEV_3V3) {
                     flag_led_1_on = 1; // 指示灯常亮，不闪烁
                 }
+
                 if (bat_lev >= BAT_LEV_3V6) {
                     flag_led_2_on = 1; // 指示灯常亮，不闪烁
                 }
+
                 if (bat_lev >= BAT_LEV_4V0) {
                     flag_led_3_on = 1; // 指示灯常亮，不闪烁
                 }
+
                 if (bat_lev >= BAT_LEV_4V2) {
-                    // flag_led_4_on = 1; // 指示灯常亮，不闪烁
-                    // charge_fully_cnt++;
-                    // if (charge_fully_cnt >= (u16)(((u32)6 * 60 * 1000) / 10)) {
-                    // if (charge_fully_cnt >= (u16)(((u32)30 * 1000) / 10)) {
-                    flag_led_4_on = 1; // 充满且过了6分钟，才让指示灯常亮
-                    //     charge_fully_cnt -= 1; // 防止下次进入计数溢出
-                    // }
+
+// 充电到4.2V再过一段时间，才让第四格指示灯常亮：
+#if 1
+                    // 充电到4.2V，就让第四格指示灯常亮：
+                    flag_led_4_on = 1; // 指示灯常亮，不闪烁
+#else
+                    // if (charge_fully_cnt < (u16)(((u32)6 * 60 * 1000) / 10)) {
+                    // 只在测试时使用：
+                    if (charge_fully_cnt < (u16)(((u32)30 * 1000) / 10)) {
+                        charge_fully_cnt++;
+                    } else {
+                        flag_led_4_on = 1;
+                    }
+#endif
                 }
             }
         } else if (flag_is_dev_working) {
@@ -601,6 +620,11 @@ void led_status_handle(void)
 void led_refresh(void)
 {
     static volatile u8 sta = 0;
+
+    if (0 == flag_is_led_show_enable) {
+        return;
+    }
+
     led_all_off();
 
     switch (sta) {
@@ -639,8 +663,9 @@ void main(void)
     Sys_Init();
     user_init();
 
-    while (1) {
+    into_low_power_cnt = (u8)((u16)2000 / 10); // 确保一上电就进入低功耗
 
+    while (1) {
 #if 1
         /*
             如果不在充电，并且到了关机的时间
@@ -666,8 +691,8 @@ void main(void)
 
             GIE = 0; // 关闭总中断
 
-            pwr_off_cnt = 0;
-            into_low_power_cnt = 0;
+            // pwr_off_cnt = 0;
+            // into_low_power_cnt = 0;
 
             // 关闭定时器：
             T0IE = 0;  // 屏蔽 timer0 中断
@@ -716,23 +741,23 @@ void main(void)
 
             Sys_Init();
             user_init();
+            // USER_TO_DO 这里跟 bat_lev 在充电时只能增加、放电时只能减小的程序有冲突
+            if (CHARGE_PIN == 0) {
+                // 没有在充电，可能是按键唤醒，这里给变量最大值作为初始值
+                tmp_bat_lev = BAT_LEV_4V2; // 唤醒后，给一个默认值
+                bat_lev = BAT_LEV_4V2;
+            } else {
+                // 在充电，可能是充电唤醒，这里给变量最小值作为初始值
+                tmp_bat_lev = BAT_LEV_2V9;
+                bat_lev = BAT_LEV_2V9;
+            }
 
-            tmp_bat_lev = BAT_LEV_4V2; // 唤醒后，给一个默认值
-            bat_lev = BAT_LEV_4V2;
-            // 立即获取一次电池电量 ( 需要放在 C_RAM() 函数之后 )
-            // for (i = 0; i < 40; i++) {
-            //     lvd_scan();
-            //     delay_ms(1);
-
-            //     // 测试时使用，观察是否退出了低功耗
-            //     // P14D = ~P14D;
-            // }
             /*
                 在 timer0 中断内调用了 lvd_scan()，这里要等待一段时间，
                 等 tmp_bat_lev 的值更新
             */
-            delay_ms(40);
-            bat_lev = tmp_bat_lev;
+            delay_ms(100);
+            flag_is_led_show_enable = 1; // 确保电池电量更新后，再使能led显示
 
             // 没有在充电并且低电量，重新回到低功耗
             if (CHARGE_PIN == 0 && bat_lev < BAT_LEV_3V0) {
@@ -783,50 +808,6 @@ void int_isr(void) __interrupt
                     pwr_off_cnt = 0;
                 }
 
-                /*
-                    USER_TO_DO
-                    用两个u8类型的变量来取代u16类型的变量，进行计数，
-                    最后程序占用会少一个字节
-                */
-                // {
-                //     static u8 cnt = 0;
-                //     cnt++;
-                //     if (cnt >= 100) // 100 * 10ms
-                //     {
-                //         cnt = 0;
-                //         {
-                //             static u8 cnt = 0;
-                //             cnt++;
-                //             if (cnt >= 150) {
-                //                 cnt = 0;
-                //                 P14D = ~P14D;
-                //             }
-                //         }
-                //     }
-                // }
-
-                // USER_TO_DO 如果还有多的程序空间，要给这里加上滤波
-                {
-                    static u8 cnt = 0;
-                    cnt++;
-                    if (cnt >= 200) {
-                        cnt = 0;
-
-                        if (flag_is_dev_working) {
-                            // 正在放电，电量只能减小，不能增大
-                            if (bat_lev >= tmp_bat_lev) {
-                                bat_lev = tmp_bat_lev;
-                            }
-
-                        } else {
-                            // 正在充电，电量只能增大，不能减小
-                            if (bat_lev <= tmp_bat_lev) {
-                                bat_lev = tmp_bat_lev;
-                            }
-                        }
-                    }
-                }
-
                 // 低电量关机
                 if (flag_is_dev_working && bat_lev == BAT_LEV_2V9) {
                     pen_pwr_off();           // 断开笔头的供电
@@ -836,7 +817,7 @@ void int_isr(void) __interrupt
 
                 // 充电检测
                 {
-                    static u8 cnt = 0;
+                    static volatile u8 cnt = 0;
                     if (CHARGE_PIN) {
                         cnt++;
                         if (cnt >= 10) {
@@ -884,6 +865,27 @@ void int_isr(void) __interrupt
         }
 
         lvd_scan();
+        // USER_TO_DO 如果还有多的程序空间，要给这里加上滤波
+        {
+            // static volatile u8 cnt = 0;
+            // cnt++;
+            // if (cnt >= (u8)(2000 / 10)) {
+            //     cnt = 0;
+
+            if (flag_is_dev_working) {
+                // 正在放电，电量只能减小，不能增大
+                if (bat_lev >= tmp_bat_lev) {
+                    bat_lev = tmp_bat_lev;
+                }
+
+            } else {
+                // 正在充电，电量只能增大，不能减小
+                if (bat_lev <= tmp_bat_lev) {
+                    bat_lev = tmp_bat_lev;
+                }
+            }
+            // }
+        }
     }
 
     // 100us 定时器中断

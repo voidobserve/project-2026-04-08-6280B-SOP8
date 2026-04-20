@@ -60,6 +60,7 @@
 
 // 定义LVD各个电压检测阈值配置：
 #define MCR_LVD_CFG_ALL ((u8)(0x01 << 4 | 0x01 << 3 | 0x01 << 2 | 0x01 << 1))
+// 调用下面这些配置之前，需要先给对应的寄存器全部清零：
 #define MCR_LVD_CFG_4V2 ((u8)(0x01 << 4 | 0x01 << 3 | 0x01 << 2 | 0x01 << 1))
 #define MCR_LVD_CFG_4V0 ((u8)(0x01 << 4 | 0x01 << 3 | 0x01 << 2))
 #define MCR_LVD_CFG_3V6 ((u8)(0x01 << 4 | 0x01 << 3 | 0x01 << 1))
@@ -102,9 +103,9 @@ enum
     BAT_LEV_3V0,     //
     BAT_LEV_3V2,     // 低电量
     BAT_LEV_3V3,     //
-    BAT_LEV_3V6,     //
-    BAT_LEV_4V0,
-    BAT_LEV_4V2, //
+    BAT_LEV_3V6,     // 表示当前电压至少大于3.6V
+    BAT_LEV_4V0,     // 表示当前电压至少大于4.0V
+    BAT_LEV_4V2,     // 表示当前电压至少大于4.2V
 };
 typedef u8 bat_lev_t;
 
@@ -135,8 +136,8 @@ enum
 typedef u8 dev_sta_t;
 
 //===============Field Protection Variables===============
-extern u8 abuf;
-extern u8 statusbuf;
+extern volatile u8 abuf;
+extern volatile u8 statusbuf;
 
 //===============IO Define===============
 
@@ -180,7 +181,7 @@ typedef union
 // example:
 // #define  	FLAG_TIMER0_500ms  	flag1.bits.bit0	   	 // 标志位
 extern volatile bit_flag_t flag1;
-extern volatile bit_flag_t flag2;
+// extern volatile bit_flag_t flag2;
 
 // 是否正在充电
 #define flag_is_in_charging flag1.bits.bit0
@@ -197,8 +198,8 @@ extern volatile bit_flag_t flag2;
 // 上一次从传感器检测脚读取到的电平
 #define last_vibration_sensor_lev flag1.bits.bit7
 
-// 是否进入低功耗模式
-// #define flag_is_low_power_enable
+// 是否使能led指示灯显示
+#define flag_is_led_show_enable flag2.bits.bit0 
 
 #include "timer0.h"
 #include "timer1.h"
