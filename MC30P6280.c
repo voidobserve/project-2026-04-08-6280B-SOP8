@@ -553,7 +553,7 @@ void led_status_handle(void)
                 }
 
                 if (bat_lev >= BAT_LEV_4V2) {
-#if 1
+#if 0
                     // 充电到4.2V，就让第四格指示灯常亮：
                     flag_led_4_on = 1; // 指示灯常亮，不闪烁
 #else
