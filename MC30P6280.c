@@ -475,6 +475,7 @@ void led_status_handle(void)
     led_sta_reflash_cnt++;
     if (led_sta_reflash_cnt >= (u8)(500 / 10)) {
         led_sta_reflash_cnt = 0;
+
         if (flag_is_in_charging) {
             // 充电时，控制指示灯跑马显示
 
@@ -552,30 +553,30 @@ void led_status_handle(void)
                     flag_led_3_on = 1; // 指示灯常亮，不闪烁
                 }
 
-                if (bat_lev >= BAT_LEV_4V2) {
-#if 0
-                    // 充电到4.2V，就让第四格指示灯常亮：
-                    flag_led_4_on = 1; // 指示灯常亮，不闪烁
-#else
-                    // 充电到4.2V再过一段时间，才让第四格指示灯常亮：
-                    // if (charge_fully_cnt < (u16)(((u32)6 * 60 * 1000) / 10)) {
-                    if (charge_fully_cnt < 36000UL) {
-                        // 只在测试时使用：
-                        // if (charge_fully_cnt < (u16)(((u32)30 * 1000) / 10)) {
-                        charge_fully_cnt++;
-                    } else {
-                        flag_led_4_on = 1;
-                    }
-#endif
-                }
+                //                 if (bat_lev >= BAT_LEV_4V2) {
+                //                     // 注意： 这里只有 500ms 才进入一次
 
-                // // 硬件堆栈满了，改成下面这种格式：
-                // if (bat_lev >= BAT_LEV_4V2 &&
-                //     (charge_fully_cnt < (u16)(((u32)6 * 60 * 1000) / 10))) {
-                //     charge_fully_cnt++;
-                // } else if (bat_lev >= BAT_LEV_4V2) {
-                //     flag_led_4_on = 1;
-                // }
+                // #if 0
+                //                     // 充电到4.2V，就让第四格指示灯常亮：
+                //                     flag_led_4_on = 1; // 指示灯常亮，不闪烁
+                // #else
+
+                //                     if (charge_fully_cnt >= (u16)(((u32)6 * 60 * 1000) / 10)) {
+                //                         flag_led_4_on = 1;
+                //                     }
+
+                //                     // // 充电到4.2V再过一段时间，才让第四格指示灯常亮：
+                //                     // if (charge_fully_cnt < (u16)(((u32)6 * 60 * 1000) / 10)) {
+                //                     // // if (charge_fully_cnt < 36000UL) {
+                //                     //     // 只在测试时使用：
+                //                     //     // if (charge_fully_cnt < (u16)(((u32)30 * 1000) /
+                //                     10)) {
+                //                     //     charge_fully_cnt++;
+                //                     // } else {
+                //                     //     flag_led_4_on = 1;
+                //                     // }
+                // #endif
+                //                 }
             }
         } else if (flag_is_dev_working) {
             // 放电时，控制指示灯常亮
@@ -620,6 +621,19 @@ void led_status_handle(void)
             flag_led_2_on = 0;
             flag_led_3_on = 0;
             flag_led_4_on = 0;
+        }
+    }
+
+    if (flag_is_in_charging && 0 == flag_is_charge_begin) {
+        // 正在充电，并且已经过了充电的开始动画
+        if (bat_lev >= BAT_LEV_4V2) {
+            if (charge_fully_cnt < (u16)(((u32)6 * 60 * 1000) / 10)) {
+                // 只在测试时使用：
+                // if (charge_fully_cnt < (u16)(((u32)30 * 1000) / 10)) {
+                charge_fully_cnt++;
+            } else {
+                flag_led_4_on = 1;
+            }
         }
     }
 }
@@ -826,11 +840,13 @@ void int_isr(void) __interrupt
 
                 // 充电检测
                 {
-                    static volatile u8 cnt = 0;
+                    static volatile u8 charge_cnt = 0;
+                    static volatile u8 discharge_cnt = 0;
                     if (CHARGE_PIN) {
-                        cnt++;
-                        if (cnt >= 10) {
-                            cnt = 0;
+                        discharge_cnt = 0;
+                        charge_cnt++;
+                        if (charge_cnt >= 10) {
+                            charge_cnt = 0;
                             if (0 == flag_is_in_charging) {
                                 /*
                                     刚进入充电，需要将记录的电池电量改为最低档，
@@ -856,14 +872,13 @@ void int_isr(void) __interrupt
                         // DDR1 &= ~(0x01 << 4);
                         // P14D = ~P14D;
                     } else {
-                        cnt = 0;
-
-                        // if (flag_is_in_charging) {
-                        //     // 如果之前在充电，则停止充电动画
-                        //     led_all_off();
-                        // }
-
-                        flag_is_in_charging = 0;
+                        charge_cnt = 0;
+                        discharge_cnt++;
+                        if (discharge_cnt >= 100) {
+                            discharge_cnt = 0;
+                            flag_is_in_charging = 0;
+                            // flag_is_first_fully_charge = 0;
+                        }
                     }
                 }
 
@@ -882,11 +897,6 @@ void int_isr(void) __interrupt
         lvd_scan();
         // USER_TO_DO 如果还有多的程序空间，要给这里加上滤波
         {
-            // static volatile u8 cnt = 0;
-            // cnt++;
-            // if (cnt >= (u8)(2000 / 10)) {
-            //     cnt = 0;
-
             if (flag_is_dev_working) {
                 // 正在放电，电量只能减小，不能增大
                 if (bat_lev >= tmp_bat_lev) {
@@ -899,7 +909,6 @@ void int_isr(void) __interrupt
                     bat_lev = tmp_bat_lev;
                 }
             }
-            // }
         }
     }
 
